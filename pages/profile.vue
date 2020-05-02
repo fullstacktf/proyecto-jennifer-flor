@@ -1,42 +1,53 @@
 <template>
   <div>
     <h1>Tu perfil</h1>
-    <v-card class="my-2">
-      <v-row>
-        <v-col cols="12" md="2">
-          <v-avatar size="164">
-            <v-img
-              src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
-            ></v-img>
-          </v-avatar>
-        </v-col>
-        <v-col cols="12" md="10">
-          <v-card-title
-            >{{ userJson.name }} {{ userJson.lastname }}
-          </v-card-title>
-          <v-card-subtitle>{{ userJson.email }}</v-card-subtitle>
-          <v-card-text>
-            <p>{{ userJson.telephone }}</p>
-            <p class="subtitle-2">
-              {{ userJson.address }} {{ userJson.location }}
-            </p>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer><v-btn text>Edit</v-btn>
-          </v-card-actions>
-        </v-col>
-      </v-row>
-    </v-card>
-    <v-card class="my-2">
-      <v-card-title>Actualmente alquilado</v-card-title>
-      <garage-card :garages="getActualRental"></garage-card>
-    </v-card>
-    <v-card class="my-2">
+    <v-card class="my-2 py-2 px-4">
+      <h3 class="secondary--text">Información</h3>
+      <v-avatar size="164">
+        <v-img
+          src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
+        ></v-img>
+      </v-avatar>
       <v-card-title>
-        Alquilados con anterioridad
-        <garage-card :garages="getRentalHistory"></garage-card>
+        <v-icon small class="mr-1">mdi-account</v-icon>
+        {{ userJson.name }} {{ userJson.lastname }}
       </v-card-title>
+      <v-card-subtitle>
+        <v-icon small class="mr-1">mdi-email</v-icon>
+        {{ userJson.email }}
+      </v-card-subtitle>
+      <v-card-text>
+        <p>{{ userJson.telephone }}</p>
+        <p class="subtitle-2">{{ userJson.address }} {{ userJson.location }}</p>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer
+        ><v-btn depressed color="accent">Editar perfil</v-btn>
+      </v-card-actions>
     </v-card>
+    <h2 class="d-inline-flex my-4">Actualmente alquilado</h2>
+    <v-btn text class="success--text">Modificar Alquiler</v-btn>
+    <v-card
+      v-if="userJson.actualrental.length > 0"
+      flat
+      class="d-flex flex-wrap"
+    >
+      <garage-card
+        v-for="(garage, index) in actualRental"
+        :key="index"
+        :garages="garage"
+        class="ma-1"
+      ></garage-card
+    ></v-card>
+    <h2>Alquilados con anterioridad</h2>
+    <v-card flat class="d-flex flex-wrap">
+      <garage-card
+        v-for="(garage, index) in rentalHistory"
+        :key="index"
+        :garages="garage"
+        class="ma-1"
+      ></garage-card
+    ></v-card>
   </div>
 </template>
 
@@ -55,19 +66,20 @@ export default {
     }
   },
   computed: {
-    getActualRental() {
-      const garage = this.garagesJson.filter((el) => {
-        return el.id === this.userJson.actualrental
-      })
-      return garage[0]
+    actualRental() {
+      return this.getRentalData(this.userJson.actualrental)
     },
-    getRentalHistory() {
-      const garages = []
-      this.userJson.historyrental.forEach((item) => {
-        garagesJson.filter((el) => {
-          
-        })
-        garages.push(item)
+    rentalHistory() {
+      return this.getRentalData(this.userJson.historyrental)
+    }
+  },
+  methods: {
+    getRentalData(type) {
+      const garages = {}
+      type.forEach((item, index) => {
+        garages[index] = garagesJson.filter((el) => {
+          return el.id === item
+        })[0]
       })
       return garages
     }

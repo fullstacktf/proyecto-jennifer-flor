@@ -5,6 +5,6 @@
   "address": "Calle la piruleta, 3",
   "location": "Santa Cruz de Tenerife",
   "telephone": 688000011,
-  "actualrental": 1,
-  "historyrental": [3, 4]
+  "actualrental": [1, 2],
+  "historyrental": [3, 3, 4, 1]
 }
