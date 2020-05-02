@@ -29,10 +29,13 @@
     </v-card>
     <v-card class="my-2">
       <v-card-title>Actualmente alquilado</v-card-title>
+      <garage-card :garages="getActualRental"></garage-card>
     </v-card>
-    <garage-card garages="getActualRent"></garage-card>
     <v-card class="my-2">
-      <v-card-title>Alquilados con anterioridad</v-card-title>
+      <v-card-title>
+        Alquilados con anterioridad
+        <!-- <garage-card :garages="getRentalHistory"></garage-card> -->
+      </v-card-title>
     </v-card>
   </div>
 </template>
@@ -52,11 +55,11 @@ export default {
     }
   },
   computed: {
-    getActualRent() {
+    getActualRental() {
       const garage = this.garagesJson.filter((el) => {
-        return el.id === this.userJson.actualrent
+        return el.id === this.userJson.actualrental
       })
-      return garage
+      return garage[0]
     }
   }
 }
