@@ -34,7 +34,7 @@
     <v-card class="my-2">
       <v-card-title>
         Alquilados con anterioridad
-        <!-- <garage-card :garages="getRentalHistory"></garage-card> -->
+        <garage-card :garages="getRentalHistory"></garage-card>
       </v-card-title>
     </v-card>
   </div>
@@ -60,6 +60,16 @@ export default {
         return el.id === this.userJson.actualrental
       })
       return garage[0]
+    },
+    getRentalHistory() {
+      const garages = []
+      this.userJson.historyrental.forEach((item) => {
+        garagesJson.filter((el) => {
+          
+        })
+        garages.push(item)
+      })
+      return garages
     }
   }
 }
