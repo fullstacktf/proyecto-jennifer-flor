@@ -13,13 +13,14 @@
         {{ userJson.name }} {{ userJson.lastname }}
       </v-card-title>
       <v-card-subtitle>
-        <v-icon small class="mr-1">mdi-email</v-icon>
-        {{ userJson.email }}
+        <div>
+          <v-icon small class="mr-1">mdi-email</v-icon> {{ userJson.email }}
+        </div>
+        <div>
+          <v-icon small class="mr-1">mdi-map-marker</v-icon>
+          {{ userJson.location }}
+        </div>
       </v-card-subtitle>
-      <v-card-text>
-        <p>{{ userJson.telephone }}</p>
-        <p class="subtitle-2">{{ userJson.address }} {{ userJson.location }}</p>
-      </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer
         ><v-btn depressed color="accent">Editar perfil</v-btn>
