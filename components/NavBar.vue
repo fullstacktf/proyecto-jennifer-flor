@@ -7,6 +7,7 @@
       <v-btn icon nuxt to="/search">
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
+      <notification-menu></notification-menu>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" app color="grey lighten-3">
       <v-list>
@@ -32,7 +33,13 @@
 </template>
 
 <script>
+import NotificationMenu from '@/components/NotificationMenu'
+
 export default {
+  name: 'NavBar',
+  components: {
+    NotificationMenu
+  },
   data() {
     return {
       drawer: false,
