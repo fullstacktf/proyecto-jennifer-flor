@@ -22,12 +22,86 @@
         </div>
       </v-card-subtitle>
       <v-card-actions>
-        <v-spacer></v-spacer
-        ><v-btn depressed color="accent">Editar perfil</v-btn>
+        <v-spacer></v-spacer>
+
+        <v-dialog
+          v-model="dialog"
+          fullscreen
+          hide-overlay
+          transition="dialog-bottom-transition"
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn depressed color="accent" v-on="on">
+              Editar perfil
+            </v-btn>
+          </template>
+          <v-card>
+            <v-toolbar dark color="primary">
+              <v-btn icon dark @click="closeUserDataDialog">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              <v-toolbar-title>Editar perfil</v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-toolbar-items class="pa-2">
+                <v-btn dark text outlined @click="saveUserData">
+                  <v-icon left>mdi-content-save</v-icon>
+                  Guardar
+                </v-btn>
+              </v-toolbar-items>
+            </v-toolbar>
+            <v-card-text>
+              <v-container>
+                <v-form ref="form">
+                  <div class="d-flex">
+                    <v-text-field
+                      v-model="unsaveData.name"
+                      class="mx-1"
+                      label="Nombre"
+                      :placeholder="userJson.name"
+                      required
+                      prepend-icon="mdi-account"
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="unsaveData.lastname"
+                      class="mx-1"
+                      label="Apellidos"
+                      :placeholder="userJson.lastname"
+                      required
+                    ></v-text-field>
+                  </div>
+                  <v-text-field
+                    v-model="unsaveData.email"
+                    label="Email"
+                    :placeholder="userJson.email"
+                    required
+                    prepend-icon="mdi-email"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="unsaveData.location"
+                    label="Localidad"
+                    :placeholder="userJson.location"
+                    required
+                    prepend-icon="mdi-map-marker"
+                  ></v-text-field>
+                  <v-textarea
+                    v-model="unsaveData.bio"
+                    label="Sobre ti"
+                    :placeholder="userJson.bio"
+                    rows="4"
+                    row-height="30"
+                    no-resize
+                    required
+                    prepend-icon="mdi-pencil-outline"
+                  ></v-textarea>
+                </v-form>
+              </v-container>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
       </v-card-actions>
     </v-card>
     <h2 class="d-inline-flex my-4">Actualmente alquilado</h2>
-    <v-btn text class="success--text">Modificar Alquiler</v-btn>
+    <v-btn text outlined class="success--text">Modificar Alquiler</v-btn>
     <v-card
       v-if="userJson.actualrental.length > 0"
       flat
@@ -63,7 +137,9 @@ export default {
   data() {
     return {
       userJson,
-      garagesJson
+      garagesJson,
+      dialog: false,
+      unsaveData: {}
     }
   },
   computed: {
@@ -75,6 +151,17 @@ export default {
     }
   },
   methods: {
+    clearUnsaveUserData() {
+      this.unsaveData = {}
+    },
+    saveUserData() {
+      console.log(this.unsaveData)
+      this.clearUnsaveUserData()
+    },
+    closeUserDataDialog() {
+      this.dialog = false
+      this.clearUnsaveUserData()
+    },
     getRentalData(type) {
       const garages = {}
       type.forEach((item, index) => {
