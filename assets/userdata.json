@@ -1,0 +1,22 @@
+{
+  "name": "Pepe",
+  "lastname": "Hernández",
+  "email": "unemail@email.com",
+  "address": "Calle la piruleta, 3",
+  "location": "Santa Cruz de Tenerife",
+  "telephone": 688000011,
+  "actualrental": [1, 2],
+  "historyrental": [3, 3, 4, 1],
+  "notifications": [
+    {
+      "title": "Mensaje privado",
+      "content": "Hola, te olvidaste tu teléfono en mi garage, ven a buscarlo a Tacoronte",
+      "sentBy": "userID"
+    },
+    {
+      "title": "Mañana tienes disponible un garaje",
+      "content": "No te olvides que mañana tienes alquilado este garaje",
+      "sentBy": "app"
+    }
+  ]
+}
