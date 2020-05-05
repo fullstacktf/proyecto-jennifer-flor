@@ -7,7 +7,7 @@
         type="password"
         label="Contraseña"
       ></v-text-field>
-      <v-btn color="primary">Iniciar Sesión</v-btn>
+      <!-- <v-btn color="primary">Iniciar Sesión</v-btn> -->
       <v-btn outlined @click="submit">Registrarse</v-btn>
     </v-form>
   </div>
