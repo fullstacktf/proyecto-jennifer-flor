@@ -12,7 +12,7 @@
         </v-badge>
       </v-btn>
     </template>
-    <v-list max-width="400" class="pa-1" v-if="notifications.length > 0">
+    <v-list v-if="notifications.length > 0" max-width="400" class="pa-1">
       <v-list-item v-for="(item, index) in notifications" :key="index">
         <v-list-item-content>
           <v-list-item-title>{{ item.title }}</v-list-item-title>
