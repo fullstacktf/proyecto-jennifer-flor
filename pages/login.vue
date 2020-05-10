@@ -7,13 +7,15 @@
         type="password"
         label="Contraseña"
       ></v-text-field>
-      <v-btn color="primary" @click="submit">Iniciar Sesión</v-btn>
-      <v-btn outlined>Registrarse</v-btn>
+      <!-- <v-btn color="primary">Iniciar Sesión</v-btn> -->
+      <v-btn outlined @click="submit">Registrarse</v-btn>
     </v-form>
   </div>
 </template>
 
 <script>
+import { auth } from '../assets/gotrue'
+
 export default {
   name: 'LogIn',
 
@@ -25,7 +27,13 @@ export default {
   },
   methods: {
     submit() {
-      console.log(this.name, this.password)
+      event.preventDefault()
+      auth
+        .signup(this.name, this.password)
+        .then((response) =>
+          console.log('Confirmation email sent', JSON.stringify(response))
+        )
+        .catch((error) => console.log("It's an error", error))
     }
   }
 }
