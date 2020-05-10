@@ -1,15 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
 
-// only add `router.base = '/<repository-name>/'` if `DEPLOY_ENV` is `GH_PAGES`
-const routerBase =
-  process.env.DEPLOY_ENV === 'GH_PAGES'
-    ? {
-        router: {
-          base: '/proyecto-jennifer-flor/'
-        }
-      }
-    : {}
-
 export default {
   mode: 'spa',
   /*
@@ -101,6 +91,5 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
-  },
-  routerBase
+  }
 }
