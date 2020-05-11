@@ -55,7 +55,7 @@ export default {
       items: [
         { icon: 'mdi-view-dashboard', title: 'Dashboard', to: '/' },
         { icon: 'mdi-account', title: 'Perfil', to: '/profile' },
-        { icon: 'mdi-car', title: 'Alquileres', to: '/rent' },
+        { icon: 'mdi-car', title: 'Reserva', to: '/rent' },
         { icon: 'mdi-cog', title: 'Configuración', to: '/settings' }
       ]
     }
