@@ -35,14 +35,33 @@
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
-      <v-card-title>Datos del aparcamiento</v-card-title>
-      <v-card-subtitle>Dirección</v-card-subtitle>
-      <v-card-text class="font-weight-medium">Calle Test</v-card-text>
-      <v-card-subtitle>Dimensiones</v-card-subtitle>
-      <v-card-text class="font-weight-medium">100 m2</v-card-text>
-      <v-card-subtitle>Propietario</v-card-subtitle>
-      <v-card-text class="font-weight-medium">Nombre propietario</v-card-text>
-
+      <v-list two-line subheader>
+        <v-subheader class="title">Datos del aparcamiento</v-subheader>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>Dirección</v-list-item-title>
+            <v-list-item-subtitle>
+              Calle Test
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>Dimensiones</v-list-item-title>
+            <v-list-item-subtitle>
+              100 m2
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>Propietario</v-list-item-title>
+            <v-list-item-subtitle>
+              Nombre del propietario
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
       <v-list>
         <v-list-item>
           <v-list-item-content>
