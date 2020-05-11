@@ -116,6 +116,11 @@ export default {
     actualUserLocation() {
       return 'Santa Cruz de Tenerife'
     }
+  },
+  head() {
+    return {
+      title: ''
+    }
   }
 }
 </script>

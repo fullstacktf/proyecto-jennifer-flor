@@ -1,7 +1,7 @@
 {
   "name": "proyecto-jennifer-flor",
   "version": "1.0.0",
-  "description": "My astonishing Nuxt.js project",
+  "description": "Aplicación GarageMe para buscar y reservar aparcamientos y garages en alquiler",
   "author": "Jennifer y Flor",
   "private": true,
   "scripts": {

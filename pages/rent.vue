@@ -107,6 +107,11 @@ export default {
       const totalHours = 18
       return this.unitPrice * totalHours
     }
+  },
+  head() {
+    return {
+      title: 'Reservas'
+    }
   }
 }
 </script>

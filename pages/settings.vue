@@ -106,6 +106,11 @@ export default {
     toggle() {
       this.active = !this.active
     }
+  },
+  head() {
+    return {
+      title: 'Configuración'
+    }
   }
 }
 </script>

@@ -171,6 +171,11 @@ export default {
       })
       return garages
     }
+  },
+  head() {
+    return {
+      title: 'Perfil'
+    }
   }
 }
 </script>

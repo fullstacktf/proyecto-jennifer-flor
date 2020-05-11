@@ -20,6 +20,11 @@ export default {
         (error) => console.error('Failed to log in: %o', error)
       )
     }
+  },
+  head() {
+    return {
+      title: ''
+    }
   }
 }
 </script>

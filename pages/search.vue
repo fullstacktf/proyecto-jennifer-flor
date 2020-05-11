@@ -29,6 +29,11 @@ export default {
       search: '',
       garagesJson
     }
+  },
+  head() {
+    return {
+      title: 'Buscador'
+    }
   }
 }
 </script>

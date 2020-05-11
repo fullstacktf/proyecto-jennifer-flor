@@ -54,6 +54,11 @@ export default {
         .then((response) => console.log('Loged In', JSON.stringify(response)))
         .catch((error) => console.error('Failed to log in', error))
     }
+  },
+  head() {
+    return {
+      title: 'Login'
+    }
   }
 }
 </script>

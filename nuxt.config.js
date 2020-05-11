@@ -6,8 +6,10 @@ export default {
    ** Headers of the page
    */
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: process.env.npm_package_name || '',
+    titleTemplate: (titleChunk) => {
+      return titleChunk ? `${titleChunk} | GarageMe App` : 'GarageMe App'
+    },
+    title: 'GarageMe App',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -48,7 +50,11 @@ export default {
     [
       '@nuxtjs/google-analytics',
       {
-        id: 'G-3B14ZMYVDH'
+        id: 'UA-166091474-1',
+        debug: {
+          enabled: true,
+          sendHitTask: true
+        }
       }
     ],
     // Doc: https://axios.nuxtjs.org/usage
