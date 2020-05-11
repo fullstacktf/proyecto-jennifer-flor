@@ -1,11 +1,17 @@
 <template>
   <nav>
     <v-app-bar app color="primary" dark>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>GarageMe</v-toolbar-title>
+      <v-app-bar-nav-icon
+        v-if="isVisible"
+        @click="drawer = !drawer"
+      ></v-app-bar-nav-icon>
+      <v-toolbar-title>
+        GarageMe
+        <logo-icon color="#fff" class="mr-1"></logo-icon>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
-      <notification-menu></notification-menu>
-      <v-btn class="ml-3" outlined nuxt to="/search">
+      <notification-menu v-if="isVisible"></notification-menu>
+      <v-btn v-if="isVisible" class="ml-3" outlined nuxt to="/search">
         <v-icon left>mdi-magnify</v-icon>Buscar
       </v-btn>
     </v-app-bar>
@@ -34,11 +40,14 @@
 
 <script>
 import NotificationMenu from '@/components/NotificationMenu'
+import LogoIcon from '@/components/LogoIcon'
+// import { auth } from '@/assets/gotrue.js'
 
 export default {
   name: 'NavBar',
   components: {
-    NotificationMenu
+    NotificationMenu,
+    LogoIcon
   },
   data() {
     return {
@@ -49,6 +58,17 @@ export default {
         { icon: 'mdi-car', title: 'Alquileres', to: '/rent' },
         { icon: 'mdi-cog', title: 'Configuración', to: '/settings' }
       ]
+    }
+  },
+  computed: {
+    isVisible() {
+      // const user = auth.currentUser()
+      // if (!user) {
+      //   return false
+      // } else {
+      //   return true
+      // }
+      return true
     }
   }
 }

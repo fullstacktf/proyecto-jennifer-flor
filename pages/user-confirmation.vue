@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Confirmación de usuarios</h1>
+    <h1>Usuario confirmado</h1>
   </div>
 </template>
 

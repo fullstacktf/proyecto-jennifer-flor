@@ -6,9 +6,9 @@
         <nuxt />
       </v-container>
     </v-content>
-    <v-footer app>
+    <!-- <v-footer app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    </v-footer> -->
   </v-app>
 </template>
 
@@ -18,6 +18,7 @@ export default {
   components: {
     NavBar
   },
+  // middleware: 'authenticated',
   data() {
     return {}
   }
