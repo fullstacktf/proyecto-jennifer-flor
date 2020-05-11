@@ -1,32 +1,37 @@
 [
-    {
-        "address": "address1",
-        "owner": "owner1",
-        "imagen": "https://source.unsplash.com/1600x900/?garage",
-        "id": 1
-    },
-    {
-        "address": "address2",
-        "owner": "owner2",
-        "imagen": "https://source.unsplash.com/1600x900/?garage",
-        "id": 2
-    },
-    {
-        "address": "address3",
-        "owner": "owner3",
-        "imagen": "https://source.unsplash.com/1600x900/?garage",
-        "id": 3
-    },
-    {
-        "address": "address4",
-        "owner": "owner4",
-        "imagen": "https://source.unsplash.com/1600x900/?garage",
-        "id": 4
-    },
-    {
-        "address": "address5",
-        "owner": "owner5",
-        "imagen": "https://source.unsplash.com/1600x900/?garage",
-        "id": 5
-    }
+  {
+    "address": "address1",
+    "location": "Santa Cruz de Tenerife",
+    "owner": "owner1",
+    "imagen": "https://source.unsplash.com/1600x900/?garage",
+    "id": 1
+  },
+  {
+    "address": "address2",
+    "location": "Santa Cruz de Tenerife",
+    "owner": "owner2",
+    "imagen": "https://source.unsplash.com/1600x900/?garage",
+    "id": 2
+  },
+  {
+    "address": "address3",
+    "location": "San Cristóbal de La Laguna",
+    "owner": "owner3",
+    "imagen": "https://source.unsplash.com/1600x900/?garage",
+    "id": 3
+  },
+  {
+    "address": "address4",
+    "location": "Santa Cruz de Tenerife",
+    "owner": "owner4",
+    "imagen": "https://source.unsplash.com/1600x900/?garage",
+    "id": 4
+  },
+  {
+    "address": "address5",
+    "location": "Santa Cruz de Tenerife",
+    "owner": "owner5",
+    "imagen": "https://source.unsplash.com/1600x900/?garage",
+    "id": 5
+  }
 ]
