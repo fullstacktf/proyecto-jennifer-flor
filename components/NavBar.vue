@@ -41,7 +41,6 @@
 <script>
 import NotificationMenu from '@/components/NotificationMenu'
 import LogoIcon from '@/components/LogoIcon'
-// import { auth } from '@/assets/gotrue.js'
 
 export default {
   name: 'NavBar',
@@ -62,7 +61,7 @@ export default {
   },
   computed: {
     isVisible() {
-      // const user = auth.currentUser()
+      // const user = this.$auth.currentUser()
       // if (!user) {
       //   return false
       // } else {

@@ -97,6 +97,8 @@ import garagesJson from '@/assets/garages.json'
 import parkingimg from '@/assets/parking.png'
 import GarageCard from '@/components/GarageCard'
 export default {
+  // activar autentificación
+  // middleware: 'auth',
   components: {
     GarageCard
   },

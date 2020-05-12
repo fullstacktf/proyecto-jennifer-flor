@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import { auth } from '../assets/gotrue'
-
 export default {
   name: 'LogIn',
   data() {
@@ -40,7 +38,7 @@ export default {
   methods: {
     signUp() {
       event.preventDefault()
-      auth
+      this.$auth
         .signup(this.email, this.pass)
         .then((response) =>
           console.log('Confirmation email sent', JSON.stringify(response))
@@ -49,7 +47,7 @@ export default {
     },
     logIn() {
       event.preventDefault()
-      auth
+      this.$auth
         .login(this.user, this.password)
         .then((response) => console.log('Loged In', JSON.stringify(response)))
         .catch((error) => console.error('Failed to log in', error))

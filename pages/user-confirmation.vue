@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { auth } from '../assets/gotrue'
-
 export default {
   name: 'UserConfirmation',
   mounted() {
@@ -15,7 +13,7 @@ export default {
       window.location.hash.indexOf('#confirmation_token=') === 0
     ) {
       const token = window.location.hash.replace('#confirmation_token=', '')
-      auth.confirm(token, true).then(
+      this.$auth.confirm(token, true).then(
         (user) => (window.location.href = '/'),
         (error) => console.error('Failed to log in: %o', error)
       )
