@@ -1,10 +1,6 @@
 <template>
   <nav>
     <v-app-bar app color="primary" dark>
-      <v-app-bar-nav-icon
-        v-if="isVisible"
-        @click="drawer = !drawer"
-      ></v-app-bar-nav-icon>
       <v-toolbar-title>
         GarageMe
         <logo-icon color="#fff" class="mr-1"></logo-icon>
@@ -14,8 +10,17 @@
       <v-btn v-if="isVisible" class="ml-3" outlined nuxt to="/search">
         <v-icon left>mdi-magnify</v-icon>Buscar
       </v-btn>
+      <v-app-bar-nav-icon
+        v-if="isVisible"
+        @click="drawer = !drawer"
+      ></v-app-bar-nav-icon>
     </v-app-bar>
-    <v-navigation-drawer v-model="drawer" app color="grey lighten-3">
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+      color="grey lighten-3"
+      right="right"
+    >
       <v-list>
         <v-list-item
           v-for="item in items"
@@ -32,7 +37,9 @@
         </v-list-item>
       </v-list>
       <div class="pa-2">
-        <v-btn block color="accent" depressed>Cerrar sesión</v-btn>
+        <v-btn block color="accent" depressed @click="logOut"
+          >Cerrar sesión</v-btn
+        >
       </div>
     </v-navigation-drawer>
   </nav>
@@ -68,6 +75,18 @@ export default {
       //   return true
       // }
       return true
+    }
+  },
+  methods: {
+    logOut() {
+      event.preventDefault()
+      const user = this.$auth.currentUser()
+      if (!user) {
+        return user.logout().then(
+          (response) => (window.location.href = '/'),
+          (error) => console.error('Failed to logout user: ', error)
+        )
+      }
     }
   }
 }
