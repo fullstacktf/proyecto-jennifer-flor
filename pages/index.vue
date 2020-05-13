@@ -1,6 +1,6 @@
 <template>
   <div light>
-    <h1 class="mt-4 display-2 text-center">¡Hola, {{ userJson.name }}!</h1>
+    <h1 class="mt-4 display-2 text-center">¡Hola, {{ userData.name }}!</h1>
     <v-card
       max-width="400"
       outlined
@@ -35,28 +35,30 @@
             max-width="100"
             class="mx-10"
           ></v-img>
-          <v-list-item-content>
-            <v-list-item-title class="text-uppercase title"
-              >Inicio</v-list-item-title
-            >
-            <v-list-item-subtitle class="subtitle-1"
-              >Sábado 23/05/2020</v-list-item-subtitle
-            >
-            <v-list-item-subtitle class="subtitle-1"
-              >16:00</v-list-item-subtitle
-            >
-          </v-list-item-content>
-          <v-list-item-content>
-            <v-list-item-title class="text-uppercase title"
-              >Fin</v-list-item-title
-            >
-            <v-list-item-subtitle class="subtitle-1"
-              >Domingo 24/05/2020</v-list-item-subtitle
-            >
-            <v-list-item-subtitle class="subtitle-1"
-              >10:00</v-list-item-subtitle
-            >
-          </v-list-item-content>
+          <div class="d-flex flex-column flex-md-row">
+            <v-list-item-content>
+              <v-list-item-title class="text-uppercase title"
+                >Inicio</v-list-item-title
+              >
+              <v-list-item-subtitle class="subtitle-1">{{
+                userData.booking.startDate
+              }}</v-list-item-subtitle>
+              <v-list-item-subtitle class="subtitle-1">{{
+                userData.booking.startTime
+              }}</v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-content>
+              <v-list-item-title class="text-uppercase title"
+                >Fin</v-list-item-title
+              >
+              <v-list-item-subtitle class="subtitle-1">{{
+                userData.booking.endDate
+              }}</v-list-item-subtitle>
+              <v-list-item-subtitle class="subtitle-1">{{
+                userData.booking.endTime
+              }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </div>
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
@@ -76,7 +78,7 @@
       ></garage-card>
     </v-card>
     <v-alert
-      v-if="garagesNearby.length == 0"
+      v-if="garagesNearby.length === 0"
       max-width="600"
       border="top"
       colored-border
@@ -92,8 +94,8 @@
 </template>
 
 <script>
-import userJson from '@/assets/userdata.json'
-import garagesJson from '@/assets/garages.json'
+import userData from '@/assets/userdata.json'
+import garagesData from '@/assets/garages.json'
 import parkingimg from '@/assets/parking.png'
 import GarageCard from '@/components/GarageCard'
 export default {
@@ -105,18 +107,18 @@ export default {
   data() {
     return {
       parkingimg,
-      userJson,
-      garagesJson
+      userData,
+      garagesData
     }
   },
   computed: {
     garagesNearby() {
-      return garagesJson.filter((el) => {
+      return garagesData.filter((el) => {
         return el.location === this.actualUserLocation
       })
     },
     actualUserLocation() {
-      return 'Santa Cruz de Tenerife'
+      return userData.actualLocation
     }
   },
   head() {

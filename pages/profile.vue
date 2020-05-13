@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>Tu perfil</h1>
-    <v-card class="my-2 py-2 px-4">
-      <h3 class="secondary--text">Información</h3>
+    <v-card class="my-2 py-2 px-4 mx-auto" max-width="400">
+      <h3 class="secondary--text">Datos públicos</h3>
       <v-avatar size="164">
         <v-img
           src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
@@ -10,15 +10,15 @@
       </v-avatar>
       <v-card-title>
         <v-icon small class="mr-1">mdi-account</v-icon>
-        {{ userJson.name }} {{ userJson.lastname }}
+        {{ userData.name }} {{ userData.lastname }}
       </v-card-title>
       <v-card-subtitle>
         <div>
-          <v-icon small class="mr-1">mdi-email</v-icon> {{ userJson.email }}
+          <v-icon small class="mr-1">mdi-email</v-icon> {{ userData.email }}
         </div>
         <div>
           <v-icon small class="mr-1">mdi-map-marker</v-icon>
-          {{ userJson.location }}
+          {{ userData.location }}
         </div>
       </v-card-subtitle>
       <v-card-actions>
@@ -57,7 +57,7 @@
                       v-model="unsaveData.name"
                       class="mx-1"
                       label="Nombre"
-                      :placeholder="userJson.name"
+                      :placeholder="userData.name"
                       required
                       prepend-icon="mdi-account"
                     ></v-text-field>
@@ -65,28 +65,28 @@
                       v-model="unsaveData.lastname"
                       class="mx-1"
                       label="Apellidos"
-                      :placeholder="userJson.lastname"
+                      :placeholder="userData.lastname"
                       required
                     ></v-text-field>
                   </div>
                   <v-text-field
                     v-model="unsaveData.email"
                     label="Email"
-                    :placeholder="userJson.email"
+                    :placeholder="userData.email"
                     required
                     prepend-icon="mdi-email"
                   ></v-text-field>
                   <v-text-field
                     v-model="unsaveData.location"
                     label="Localidad"
-                    :placeholder="userJson.location"
+                    :placeholder="userData.location"
                     required
                     prepend-icon="mdi-map-marker"
                   ></v-text-field>
                   <v-textarea
                     v-model="unsaveData.bio"
                     label="Sobre ti"
-                    :placeholder="userJson.bio"
+                    :placeholder="userData.bio"
                     rows="4"
                     row-height="30"
                     no-resize
@@ -100,24 +100,20 @@
         </v-dialog>
       </v-card-actions>
     </v-card>
-    <h2 class="d-inline-flex my-4">Actualmente alquilado</h2>
+    <!-- <h2 class="d-inline-flex my-4">Actualmente alquilado</h2>
     <v-btn text outlined class="success--text">Modificar Alquiler</v-btn>
-    <v-card
-      v-if="userJson.actualrental.length > 0"
-      flat
-      class="d-flex flex-wrap"
-    >
+    <v-card v-if="userData.booking.length > 0" flat class="d-flex flex-wrap">
       <garage-card
         v-for="(garage, index) in actualRental"
         :key="index"
         :garages="garage"
         class="ma-1"
       ></garage-card
-    ></v-card>
-    <h2>Alquilados con anterioridad</h2>
+    ></v-card> -->
+    <h2 class="mt-8">Historial de aparcamientos reservados</h2>
     <v-card flat class="d-flex flex-wrap">
       <garage-card
-        v-for="(garage, index) in rentalHistory"
+        v-for="(garage, index) in bookingHistory"
         :key="index"
         :garages="garage"
         class="ma-1"
@@ -127,8 +123,8 @@
 </template>
 
 <script>
-import userJson from '../assets/userdata.json'
-import garagesJson from '../assets/garages.json'
+import userData from '../assets/userdata.json'
+import garagesData from '../assets/garages.json'
 import GarageCard from '../components/GarageCard.vue'
 export default {
   components: {
@@ -136,18 +132,15 @@ export default {
   },
   data() {
     return {
-      userJson,
-      garagesJson,
+      userData,
+      garagesData,
       dialog: false,
       unsaveData: {}
     }
   },
   computed: {
-    actualRental() {
-      return this.getRentalData(this.userJson.actualrental)
-    },
-    rentalHistory() {
-      return this.getRentalData(this.userJson.historyrental)
+    bookingHistory() {
+      return this.getBookingData(this.userData.bookingHistory)
     }
   },
   methods: {
@@ -162,11 +155,11 @@ export default {
       this.dialog = false
       this.clearUnsaveUserData()
     },
-    getRentalData(type) {
+    getBookingData(type) {
       const garages = {}
       type.forEach((item, index) => {
-        garages[index] = garagesJson.filter((el) => {
-          return el.id === item
+        garages[index] = garagesData.filter((el) => {
+          return el.id === item.garageId
         })[0]
       })
       return garages

@@ -5,7 +5,7 @@
       <v-btn>Buscar</v-btn>
     </v-form>
     <garage-card
-      v-for="(garage, index) in garagesJson"
+      v-for="(garage, index) in garagesData"
       :key="index"
       :garages="garage"
     ></garage-card>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import garagesJson from '../assets/garages.json'
+import garagesData from '../assets/garages.json'
 import GarageCard from '../components/GarageCard.vue'
 import pagination from '../components/Pagination.vue'
 
@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       search: '',
-      garagesJson
+      garagesData
     }
   },
   head() {

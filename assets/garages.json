@@ -3,6 +3,9 @@
     "address": "address1",
     "location": "Santa Cruz de Tenerife",
     "owner": "owner1",
+    "unitPrice": 0.5,
+    "area": 30,
+    "height": 5,
     "imagen": "https://source.unsplash.com/1600x900/?garage",
     "id": 1
   },
@@ -10,6 +13,9 @@
     "address": "address2",
     "location": "Santa Cruz de Tenerife",
     "owner": "owner2",
+    "unitPrice": 1,
+    "area": 30,
+    "height": 5,
     "imagen": "https://source.unsplash.com/1600x900/?garage",
     "id": 2
   },
@@ -17,6 +23,9 @@
     "address": "address3",
     "location": "San Cristóbal de La Laguna",
     "owner": "owner3",
+    "unitPrice": 0.5,
+    "area": 30,
+    "height": 5,
     "imagen": "https://source.unsplash.com/1600x900/?garage",
     "id": 3
   },
@@ -24,6 +33,9 @@
     "address": "address4",
     "location": "Santa Cruz de Tenerife",
     "owner": "owner4",
+    "unitPrice": 1.2,
+    "area": 60,
+    "height": 7,
     "imagen": "https://source.unsplash.com/1600x900/?garage",
     "id": 4
   },
@@ -31,6 +43,9 @@
     "address": "address5",
     "location": "Santa Cruz de Tenerife",
     "owner": "owner5",
+    "unitPrice": 0.5,
+    "area": 30,
+    "height": 5,
     "imagen": "https://source.unsplash.com/1600x900/?garage",
     "id": 5
   }
