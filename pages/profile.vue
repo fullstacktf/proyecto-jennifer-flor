@@ -106,16 +106,16 @@
       <garage-card
         v-for="(garage, index) in actualRental"
         :key="index"
-        :garages="garage"
+        :garage="garage"
         class="ma-1"
       ></garage-card
     ></v-card> -->
     <h2 class="mt-8">Historial de aparcamientos reservados</h2>
-    <v-card flat class="d-flex flex-wrap">
+    <v-card flat class="d-flex flex-wrap justify-center">
       <garage-card
         v-for="(garage, index) in bookingHistory"
         :key="index"
-        :garages="garage"
+        :garage="garage"
         class="ma-1"
       ></garage-card
     ></v-card>

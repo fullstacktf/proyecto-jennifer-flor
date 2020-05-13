@@ -69,11 +69,11 @@
       </v-card-actions>
     </v-card>
     <h2>Aparcamientos cerca de ti</h2>
-    <v-card flat class="d-flex flex-wrap">
+    <v-card flat class="d-flex flex-wrap justify-center">
       <garage-card
         v-for="(garage, index) in garagesNearby"
         :key="index"
-        :garages="garage"
+        :garage="garage"
         class="ma-1"
       ></garage-card>
     </v-card>
