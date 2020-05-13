@@ -4,9 +4,34 @@
   "email": "unemail@email.com",
   "address": "Calle la piruleta, 3",
   "location": "Santa Cruz de Tenerife",
+  "actualLocation": "Santa Cruz de Tenerife",
   "telephone": 688000011,
-  "actualrental": [1, 2],
-  "historyrental": [3, 3, 4, 1],
+  "booking": {
+    "garageId": 1,
+    "checkIn": false,
+    "startDate": "Sábado 23/05/2020",
+    "startTime": "16:00",
+    "endDate": "Domingo 24/05/2020",
+    "endTime": "10:00"
+  },
+  "bookingHistory": [
+    {
+      "garageId": 3,
+      "startDate": "20/03/2020",
+      "startTime": "9:00",
+      "endDate": "27/03/2020",
+      "endTime": "10:00",
+      "totalPrice": 20
+    },
+    {
+      "garageId": 1,
+      "startDate": "28/03/2020",
+      "startTime": "9:00",
+      "endDate": "29/03/2020",
+      "endTime": "10:00",
+      "totalPrice": 5
+    }
+  ],
   "notifications": [
     {
       "title": "Mensaje privado",

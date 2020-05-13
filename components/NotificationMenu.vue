@@ -27,13 +27,13 @@
 </template>
 
 <script>
-import userJson from '@/assets/userdata.json'
+import userData from '@/assets/userdata.json'
 export default {
   name: 'NotificationMenu',
   data() {
     return {
-      notifications: userJson.notifications,
-      notificationNumber: userJson.notifications.length
+      notifications: userData.notifications,
+      notificationNumber: userData.notifications.length
     }
   },
   methods: {

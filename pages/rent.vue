@@ -15,10 +15,10 @@
               >Inicio</v-list-item-title
             >
             <v-list-item-subtitle class="subtitle-1">
-              {{ startDate }}
+              {{ userData.booking.startDate }}
             </v-list-item-subtitle>
             <v-list-item-subtitle class="subtitle-1">
-              {{ startTime }}
+              {{ userData.booking.startTime }}
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-content>
@@ -26,10 +26,10 @@
               >Fin</v-list-item-title
             >
             <v-list-item-subtitle class="subtitle-1">
-              {{ endDate }}
+              {{ userData.booking.endDate }}
             </v-list-item-subtitle>
             <v-list-item-subtitle class="subtitle-1">
-              {{ endTime }}
+              {{ userData.booking.endTime }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -41,7 +41,7 @@
           <v-list-item-content>
             <v-list-item-title>Dirección</v-list-item-title>
             <v-list-item-subtitle>
-              Calle Test
+              {{ garageRent.address }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -49,7 +49,8 @@
           <v-list-item-content>
             <v-list-item-title>Dimensiones</v-list-item-title>
             <v-list-item-subtitle>
-              100 m2
+              Área: {{ garageRent.area }} m² / Altura máx:
+              {{ garageRent.height }} m
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -57,13 +58,13 @@
           <v-list-item-content>
             <v-list-item-title>Propietario</v-list-item-title>
             <v-list-item-subtitle>
-              Nombre del propietario
+              {{ garageRent.owner }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
       <v-list>
-        <v-list-item>
+        <v-list-item class="d-flex flex-column flex-md-row">
           <v-list-item-content>
             <v-list-item-title class="text-uppercase title"
               >Coste total</v-list-item-title
@@ -71,11 +72,13 @@
           </v-list-item-content>
           <v-list-item-content>
             <v-list-item-subtitle>
-              {{ unitPrice }} €/hora
+              {{ garageRent.unitPrice }} €/hora
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-content>
-            <v-list-item-title> {{ finalPrice }} € </v-list-item-title>
+            <v-list-item-title class="font-weight-bold">
+              {{ finalPrice }} €
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -89,14 +92,13 @@
 </template>
 
 <script>
+import userData from '@/assets/userdata.json'
+import garagesData from '@/assets/garages.json'
 export default {
   data() {
     return {
-      startDate: 'Sábado 23/05/2020',
-      startTime: '16:00',
-      endDate: 'Domingo 24/05/2020',
-      endTime: '10:00',
-      unitPrice: 1.5
+      userData,
+      garagesData
     }
   },
   computed: {
@@ -105,7 +107,13 @@ export default {
     },
     finalPrice() {
       const totalHours = 18
-      return this.unitPrice * totalHours
+      return this.garageRent.unitPrice * totalHours
+    },
+    garageRent() {
+      const garage = garagesData.filter((el) => {
+        return el.id === userData.booking.garageId
+      })
+      return garage[0]
     }
   },
   head() {
