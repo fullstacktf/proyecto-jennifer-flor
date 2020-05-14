@@ -1,38 +1,63 @@
 <template>
   <div>
-    <v-form>
-      <v-text-field
-        v-model="user"
-        label="Usuario o Correo electrónico"
-      ></v-text-field>
-      <v-text-field
-        v-model="password"
-        type="password"
-        label="Contraseña"
-      ></v-text-field>
-      <v-btn outlined color="primary" @click="logIn">Iniciar Sesión</v-btn>
-    </v-form>
-    <v-form>
-      <v-text-field v-model="email" label="Correo electrónico"></v-text-field>
-      <v-text-field
-        v-model="pass"
-        type="password"
-        label="Contraseña"
-      ></v-text-field>
-      <v-btn outlined color="primary" @click="signUp">Registrarme</v-btn>
-    </v-form>
+    <v-card class="d-flex" tile="true" height="400">
+      <v-container>
+        <v-bottom-navigation v-model="formType" grow="true" class="navBar">
+          <v-btn value="login">
+            <h2>Iniciar Sesión</h2>
+          </v-btn>
+
+          <v-btn value="signup">
+            <h2>Registrarme</h2>
+          </v-btn>
+        </v-bottom-navigation>
+        <v-card-text>
+          <v-form v-if="formType === 'login'">
+            <v-text-field
+              v-model="user"
+              label="Usuario o Correo electrónico"
+            ></v-text-field>
+            <v-text-field
+              v-model="password"
+              type="password"
+              label="Contraseña"
+            ></v-text-field>
+            <v-btn outlined color="primary" @click="logIn"
+              >Iniciar Sesión</v-btn
+            >
+          </v-form>
+          <v-form v-if="formType === 'signup'">
+            <v-text-field
+              v-model="email"
+              label="Correo electrónico"
+            ></v-text-field>
+            <v-text-field
+              v-model="pass"
+              type="password"
+              label="Contraseña"
+            ></v-text-field>
+            <v-btn outlined color="primary" @click="signUp">Registrarme</v-btn>
+          </v-form>
+        </v-card-text>
+      </v-container>
+      <v-img :src="authImg" aspect-ratio="1.7" cover class="img"></v-img>
+    </v-card>
   </div>
 </template>
 
 <script>
+import authImg from '../assets/auth.jpg'
+
 export default {
   name: 'LogIn',
   data() {
     return {
+      formType: 'login',
       user: '',
       password: '',
       email: '',
-      pass: ''
+      pass: '',
+      authImg
     }
   },
   methods: {
@@ -60,3 +85,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.navBar {
+  box-shadow: none;
+}
+.img {
+  flex-basis: 50%;
+}
+</style>
