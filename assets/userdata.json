@@ -6,14 +6,26 @@
   "location": "Santa Cruz de Tenerife",
   "actualLocation": "Santa Cruz de Tenerife",
   "telephone": 688000011,
-  "booking": {
-    "garageId": 1,
-    "checkIn": false,
-    "startDate": "Sábado 23/05/2020",
-    "startTime": "16:00",
-    "endDate": "Domingo 24/05/2020",
-    "endTime": "10:00"
-  },
+  "bookingData": [
+    {
+      "garageId": 1,
+      "checkIn": false,
+      "startDate": "23/05/2020",
+      "startTime": "16:00",
+      "endDate": "24/05/2020",
+      "endTime": "10:00",
+      "totalPrice": 20
+    },
+    {
+      "garageId": 1,
+      "checkIn": false,
+      "startDate": "21/05/2020",
+      "startTime": "16:00",
+      "endDate": "22/05/2020",
+      "endTime": "10:00",
+      "totalPrice": 20
+    }
+  ],
   "bookingHistory": [
     {
       "garageId": 3,
