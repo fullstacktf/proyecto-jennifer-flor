@@ -43,9 +43,13 @@
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
+          <v-chip class="ma-2 px-8" x-large color="secondary">
+            <v-icon left>mdi-cash-multiple</v-icon>
+            {{ garage.unitPrice }} €/hora
+          </v-chip>
         </div>
         <v-spacer></v-spacer>
-        <v-form ref="form">
+        <v-form ref="form" v-model="validForm">
           <v-card outlined min-width="600">
             <v-card-title>Consultar disponibilidad</v-card-title>
             <v-card-text>
@@ -132,6 +136,7 @@
                     <v-text-field
                       :value="endTime"
                       :rules="rules"
+                      :error-messages="timeAllowed"
                       outlined
                       label="Hora de salida"
                       append-icon="mdi-timer-outline"
@@ -149,11 +154,11 @@
                 </v-menu>
               </div>
               <div class="d-flex flex-column align-end justify-end">
-                <v-card-title v-if="showPrice">
+                <v-card-title v-if="validForm">
                   Precio total:
                   <span class="display-1">{{ totalPrice }} €</span>
                 </v-card-title>
-                <v-card-subtitle v-if="showPrice"
+                <v-card-subtitle v-if="validForm"
                   >{{ totalHours }} horas ({{
                     garage.unitPrice
                   }}€/hora)</v-card-subtitle
@@ -161,13 +166,59 @@
               </div>
             </v-card-text>
             <v-card-actions>
-              <v-btn depressed color="accent" @click="checkPrice">
-                Consultar
-              </v-btn>
               <v-spacer></v-spacer>
-              <v-btn v-if="showPrice" depressed color="success" large>
+              <v-btn
+                v-if="validForm"
+                depressed
+                color="success"
+                large
+                @click="checkBookingGarage"
+              >
                 <v-icon>mdi-car</v-icon> Reservar
               </v-btn>
+              <v-dialog v-model="confirmationMessage">
+                <v-card>
+                  <v-card-title class="headline"
+                    >¿Seguro que quieres reservar?</v-card-title
+                  >
+                  <v-card-subtitle class="subtitle-1 mt-1"
+                    >Revisa que estos datos sean correctos</v-card-subtitle
+                  >
+
+                  <v-card-text class="headline">
+                    <v-icon left>mdi-arrow-right-bold</v-icon>
+                    Entrada: {{ date[0] }} a las {{ startTime }}
+                  </v-card-text>
+                  <v-card-text class="headline">
+                    <v-icon left>mdi-arrow-left-bold</v-icon>
+                    Salida:
+                    {{ date[1] }} a las {{ endTime }}
+                  </v-card-text>
+                  <v-card-text class="display-1 text-right">
+                    Precio: {{ totalPrice }} €
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-btn
+                      color="error"
+                      text
+                      @click="confirmationMessage = false"
+                    >
+                      Cancelar
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="success"
+                      outlined
+                      nuxt
+                      to="/"
+                      @click="bookingGarage"
+                    >
+                      Reservar
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-card-actions>
           </v-card>
         </v-form>
@@ -227,16 +278,23 @@ export default {
     return {
       garagesData,
       date: [new Date().toISOString().substr(0, 10)],
-      startTime: '', // new Date().toISOString().substr(11, 5),
-      endTime: '', // new Date().toISOString().substr(11, 5),
+      startTime: '',
+      endTime: '',
       rules: [(v) => !!v || 'Requerido'],
       menuDate: false,
       menuStartTime: false,
       menuEndTime: false,
-      showPrice: false
+      confirmationMessage: false,
+      showPrice: false,
+      validForm: false
     }
   },
   computed: {
+    timeAllowed() {
+      const error =
+        !this.date[1] && this.totalHours <= 0 ? 'Valor mínimo 1 hora' : ''
+      return error
+    },
     dateFormatted() {
       return this.getDateFormatted()
     },
@@ -266,8 +324,14 @@ export default {
       return this.date.join('   |   ')
     },
     allowedMinutes: (min) => min % 5 === 0,
-    checkPrice() {
-      if (this.$refs.form.validate()) this.showPrice = true
+    checkBookingGarage() {
+      if (!this.$refs.form.validate()) return
+      this.confirmationMessage = true
+    },
+    bookingGarage() {
+      if (!this.$refs.form.validate()) return
+      this.confirmationMessage = false
+      this.$refs.form.reset()
     }
   }
 }
