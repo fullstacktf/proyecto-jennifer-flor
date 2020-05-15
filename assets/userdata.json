@@ -9,9 +9,9 @@
   "booking": {
     "garageId": 1,
     "checkIn": false,
-    "startDate": "Sábado 23/05/2020",
+    "startDate": "23/05/2020",
     "startTime": "16:00",
-    "endDate": "Domingo 24/05/2020",
+    "endDate": "24/05/2020",
     "endTime": "10:00"
   },
   "bookingHistory": [
