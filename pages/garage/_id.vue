@@ -211,7 +211,7 @@
                       color="success"
                       outlined
                       nuxt
-                      to="/"
+                      to="/rent"
                       @click="bookingGarage"
                     >
                       Reservar

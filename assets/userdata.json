@@ -13,7 +13,8 @@
       "startDate": "23/05/2020",
       "startTime": "16:00",
       "endDate": "24/05/2020",
-      "endTime": "10:00"
+      "endTime": "10:00",
+      "totalPrice": 20
     },
     {
       "garageId": 1,
@@ -21,7 +22,8 @@
       "startDate": "21/05/2020",
       "startTime": "16:00",
       "endDate": "22/05/2020",
-      "endTime": "10:00"
+      "endTime": "10:00",
+      "totalPrice": 20
     }
   ],
   "bookingHistory": [
