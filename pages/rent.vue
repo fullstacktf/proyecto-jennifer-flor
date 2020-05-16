@@ -6,7 +6,7 @@
     >
     <div class="d-flex flex-wrap">
       <v-card
-        v-for="(bookingGarage, index) in bookingGaragesSort"
+        v-for="(bookingGarage, index) in bookingData"
         :key="index"
         class="mx-2 mt-2"
       >
@@ -43,7 +43,7 @@
             <v-list-item-content>
               <v-list-item-title>Dirección</v-list-item-title>
               <v-list-item-subtitle>
-                {{ garageRent(bookingGarage.garageId).address }}
+                {{ getGarageData(bookingGarage.garageId).address }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -51,8 +51,8 @@
             <v-list-item-content>
               <v-list-item-title>Dimensiones</v-list-item-title>
               <v-list-item-subtitle>
-                Área: {{ garageRent(bookingGarage.garageId).area }} m² / Altura
-                máx: {{ garageRent(bookingGarage.garageId).height }} m
+                Área: {{ getGarageData(bookingGarage.garageId).area }} m² /
+                Altura máx: {{ getGarageData(bookingGarage.garageId).height }} m
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -60,7 +60,7 @@
             <v-list-item-content>
               <v-list-item-title>Propietario</v-list-item-title>
               <v-list-item-subtitle>
-                {{ garageRent(bookingGarage.garageId).owner }}
+                {{ getGarageData(bookingGarage.garageId).owner }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -74,7 +74,7 @@
             </v-list-item-content>
             <v-list-item-content>
               <v-list-item-subtitle>
-                {{ garageRent(bookingGarage.garageId).unitPrice }} €/hora
+                {{ getGarageData(bookingGarage.garageId).unitPrice }} €/hora
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-content>
@@ -85,7 +85,13 @@
           </v-list-item>
         </v-list>
         <v-card-actions>
-          <v-btn depressed outlined color="error">Anular reserva</v-btn>
+          <v-btn
+            depressed
+            outlined
+            color="error"
+            @click="deleteBookingGarage(bookingGarage.id)"
+            >Anular reserva</v-btn
+          >
           <v-spacer></v-spacer>
           <v-btn depressed color="success">Check-in</v-btn>
         </v-card-actions>
@@ -95,34 +101,43 @@
 </template>
 
 <script>
-import userData from '@/assets/userdata.json'
-import garagesData from '@/assets/garages.json'
+// import userData from '@/assets/userdata.json'
+// import garagesData from '@/assets/garages.json'
 export default {
-  data() {
-    return {
-      userData,
-      garagesData
-    }
-  },
-  computed: {
-    bookingGaragesSort() {
-      userData.bookingData.sort((a, b) => {
+  asyncData({ $axios, params }) {
+    return Promise.all([
+      $axios.get(`http://localhost:3001/bookingData`),
+      $axios.get(`http://localhost:3001/garages`)
+    ]).then(([resBooking, resGarages]) => {
+      resBooking.data.sort((a, b) => {
         if (a.startDate > b.startDate) return 1
         if (b.startDate > a.startDate) return -1
         return 0
       })
-      return userData.bookingData
-    },
+      return { bookingData: resBooking.data, garagesData: resGarages.data }
+    })
+  },
+  data() {
+    return {
+      // userData,
+      // garagesData
+    }
+  },
+  computed: {
     isStarted() {
       return false
     }
   },
   methods: {
-    garageRent(id) {
-      const garage = garagesData.filter((el) => {
+    getGarageData(id) {
+      const garage = this.garagesData.filter((el) => {
         return el.id === id
       })
       return garage[0]
+    },
+    async deleteBookingGarage(id) {
+      await this.$axios.delete(`http://localhost:3001/bookingData/${id}`)
+      this.$router.go()
     }
   },
   head() {
