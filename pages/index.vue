@@ -1,7 +1,11 @@
 <template>
   <div light>
     <h1 class="mt-4 display-2 text-center">¡Hola, {{ userData.name }}!</h1>
-    <v-card class="my-10 mx-auto" max-width="900">
+    <v-card
+      v-if="nextBookingGarage !== false"
+      class="my-10 mx-auto"
+      max-width="900"
+    >
       <v-card-title class="headline font-weight-bold text-uppercase"
         >Sobre tu próxima reserva</v-card-title
       >
@@ -50,7 +54,6 @@
         <v-btn color="success" depressed>Check-In</v-btn>
       </v-card-actions>
     </v-card>
-    <h2>Aparcamientos cerca de ti</h2>
     <v-card
       max-width="400"
       flat
@@ -67,6 +70,9 @@
         <v-icon>mdi-map-marker</v-icon>{{ actualUserLocation }}
       </v-card-subtitle>
     </v-card>
+    <h2 class="text-center mt-8 mb-6 display-1 font-weight-bold">
+      Aparcamientos cerca de ti
+    </h2>
     <v-card flat class="d-flex flex-wrap justify-center">
       <garage-card
         v-for="(garage, index) in garagesNearby"
@@ -134,7 +140,8 @@ export default {
       //   if (b.startDate > a.startDate) return -1
       //   return 0
       // })
-      return this.bookingData[0]
+      const data = this.bookingData.length > 0 ? this.bookingData[0] : false
+      return data
     },
     garagesNearby() {
       return this.garagesData.filter((el) => {
@@ -142,7 +149,11 @@ export default {
       })
     },
     actualUserLocation() {
-      return this.userData.actualLocation
+      const userLocation =
+        this.userData.actualLocation === null
+          ? this.userData.location
+          : this.userData.actualLocation
+      return userLocation
     }
   },
   head() {
