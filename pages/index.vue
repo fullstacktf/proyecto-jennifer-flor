@@ -104,9 +104,9 @@ export default {
   },
   asyncData({ $axios, params }) {
     return Promise.all([
-      $axios.get(`http://localhost:3001/users/1`),
-      $axios.get(`http://localhost:3001/bookingData`),
-      $axios.get(`http://localhost:3001/garages`)
+      $axios.get(`${process.env.apiUrl}/users/1`),
+      $axios.get(`${process.env.apiUrl}/bookingData`),
+      $axios.get(`${process.env.apiUrl}/garages`)
     ]).then(([resUsers, resBooking, resGarages]) => {
       resBooking.data.sort((a, b) => {
         if (a.startDate > b.startDate) return 1

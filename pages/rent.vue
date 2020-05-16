@@ -106,8 +106,8 @@
 export default {
   asyncData({ $axios, params }) {
     return Promise.all([
-      $axios.get(`http://localhost:3001/bookingData`),
-      $axios.get(`http://localhost:3001/garages`)
+      $axios.get(`${process.env.apiUrl}/bookingData`),
+      $axios.get(`${process.env.apiUrl}/garages`)
     ]).then(([resBooking, resGarages]) => {
       resBooking.data.sort((a, b) => {
         if (a.startDate > b.startDate) return 1
@@ -136,7 +136,7 @@ export default {
       return garage[0]
     },
     async deleteBookingGarage(id) {
-      await this.$axios.delete(`http://localhost:3001/bookingData/${id}`)
+      await this.$axios.delete(`${process.env.apiUrl}/bookingData/${id}`)
       this.$router.go()
     }
   },

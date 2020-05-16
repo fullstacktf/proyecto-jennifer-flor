@@ -2,7 +2,7 @@ import GoTrue from 'gotrue-js'
 
 export default (ctx, inject) => {
   const auth = new GoTrue({
-    APIUrl: 'https://appgarageme.netlify.app/.netlify/identity',
+    APIUrl: `${process.env.BASE_URL}/.netlify/identity`,
     audience: '',
     setCookie: false
   })

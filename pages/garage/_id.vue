@@ -270,7 +270,7 @@ export default {
   name: 'Garage',
   asyncData({ $axios, params, error }) {
     return $axios
-      .get(`http://localhost:3001/garages/${params.id}`)
+      .get(`${process.env.apiUrl}/garages/${params.id}`)
       .then((res) => {
         return { garage: res.data }
       })
@@ -337,7 +337,7 @@ export default {
     async bookingGarage() {
       if (!this.$refs.form.validate()) return
       if (!this.date[1]) this.date[1] = this.date[0]
-      await this.$axios.post(`http://localhost:3001/bookingData`, {
+      await this.$axios.post(`${process.env.apiUrl}/bookingData`, {
         userId: 1,
         garageId: this.garage.id,
         checkIn: false,

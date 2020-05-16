@@ -2,6 +2,10 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   mode: 'spa',
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    apiUrl: process.env.API_URL || 'http://localhost:3001'
+  },
   /*
    ** Headers of the page
    */
@@ -55,7 +59,8 @@ export default {
           enabled: true,
           sendHitTask: true
         }
-      }
+      },
+      ['@nuxtjs/dotenv', { systemvars: true }]
     ],
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios'
