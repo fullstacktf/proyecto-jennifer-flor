@@ -207,13 +207,7 @@
                       Cancelar
                     </v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn
-                      color="success"
-                      outlined
-                      nuxt
-                      to="/rent"
-                      @click="bookingGarage"
-                    >
+                    <v-btn color="success" outlined @click="bookingGarage">
                       Reservar
                     </v-btn>
                   </v-card-actions>
@@ -271,12 +265,23 @@
 </template>
 
 <script>
-import garagesData from '@/assets/garages.json'
+// import garagesData from '@/assets/garages.json'
 export default {
   name: 'Garage',
+  asyncData({ $axios, params, error }) {
+    return $axios
+      .get(`http://localhost:3001/garages/${params.id}`)
+      .then((res) => {
+        return { garage: res.data }
+      })
+      .catch((e) => {
+        error({ statusCode: 404, message: 'Este garage no existe' })
+      })
+  },
   data() {
     return {
-      garagesData,
+      // garagesData,
+      garage: '',
       date: [new Date().toISOString().substr(0, 10)],
       startTime: '',
       endTime: '',
@@ -298,11 +303,12 @@ export default {
     dateFormatted() {
       return this.getDateFormatted()
     },
-    garage() {
-      return garagesData.filter((el) => {
-        return el.id === parseInt(this.$route.params.id)
-      })[0]
-    },
+    // garage() {
+    //   return this.garageData.id
+    //   // return this.garagesData.filter((el) => {
+    //   //   return el.id === parseInt(this.$route.params.id)
+    //   // })[0]
+    // },
     totalHours() {
       const firstDay = parseInt(this.date[0].substr(7, 8))
       const secondDay = this.date[1]
@@ -328,10 +334,22 @@ export default {
       if (!this.$refs.form.validate()) return
       this.confirmationMessage = true
     },
-    bookingGarage() {
+    async bookingGarage() {
       if (!this.$refs.form.validate()) return
+      if (!this.date[1]) this.date[1] = this.date[0]
+      await this.$axios.post(`http://localhost:3001/bookingData`, {
+        userId: 1,
+        garageId: this.garage.id,
+        checkIn: false,
+        startDate: this.date[0],
+        startTime: this.startTime,
+        endDate: this.date[1],
+        endTime: this.endTime,
+        totalPrice: this.totalPrice
+      })
       this.confirmationMessage = false
       this.$refs.form.reset()
+      this.$router.push('/rent')
     }
   }
 }
