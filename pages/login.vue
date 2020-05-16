@@ -69,25 +69,21 @@ export default {
   methods: {
     ...mapActions('modules/auth', ['attemptLogin', 'attemptSignUp']),
     signUp() {
-      event.preventDefault()
-      this.$auth
-        .signup(this.email, this.pass)
-        .then((response) =>
-          console.log('Confirmation email sent', JSON.stringify(response))
-        )
-        .catch((error) => console.log("It's an error", error))
+      this.attemptSignUp(this.signupCreds)
+        .then(() => {
+          console.log(
+            'You have successfully signed up. Check your email to confirm your account.'
+          )
+        })
+        .catch((error) => console.log(error))
     },
     logIn() {
-      const token = decodeURIComponent(window.location.search)
-        .substring(1)
-        .split('confirmation_token=')[1]
+      const token = window.location.hash.replace('#confirmation_token=', '')
       this.attemptLogin({ token, ...this.loginCreds })
         .then(() => {
-          // this.handleSuccessfulLogin()
-          console.log('You have successfully logged in.')
+          window.location.href = '/'
         })
         .catch((err) => {
-          // this.handleUnsuccessfulLogin(err)
           console.log('Oops! Looks like something is wrong! ', err)
         })
     }

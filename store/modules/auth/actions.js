@@ -6,7 +6,7 @@ const init = ({ dispatch }) => {
 
 const validate = ({ commit, state }) => {
   if (!state.currentUser) return Promise.resolve(null)
-  const user = this.$auth.currentUser()
+  const user = auth.currentUser()
   commit('SET_CURRENT_USER', user)
   return user
 }
@@ -44,7 +44,6 @@ const attemptConfirmation = ({ commit, dispatch }, credentials) => {
             response
           })
         )
-        commit('YAY')
         resolve(response)
       })
       .catch((error) => {

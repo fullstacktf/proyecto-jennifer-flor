@@ -15,7 +15,7 @@ export default {
       const token = window.location.hash.replace('#confirmation_token=', '')
       this.$auth.confirm(token, true).then(
         (user) => (window.location.href = '/'),
-        (error) => console.error('Failed to log in: %o', error)
+        (error) => console.error('Failed to log in. ', error)
       )
     }
   },
