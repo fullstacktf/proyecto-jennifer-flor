@@ -92,8 +92,8 @@
 </template>
 
 <script>
-import userData from '@/assets/userdata.json'
-import garagesData from '@/assets/garages.json'
+// import userData from '@/assets/userdata.json'
+// import garagesData from '@/assets/garages.json'
 import parkingimg from '@/assets/parking.png'
 import GarageCard from '@/components/GarageCard'
 export default {
@@ -102,29 +102,47 @@ export default {
   components: {
     GarageCard
   },
-  data() {
-    return {
-      parkingimg,
-      userData,
-      garagesData
-    }
-  },
-  computed: {
-    nextBookingGarage() {
-      userData.bookingData.sort((a, b) => {
+  asyncData({ $axios, params }) {
+    return Promise.all([
+      $axios.get(`http://localhost:3001/users/1`),
+      $axios.get(`http://localhost:3001/bookingData`),
+      $axios.get(`http://localhost:3001/garages`)
+    ]).then(([resUsers, resBooking, resGarages]) => {
+      resBooking.data.sort((a, b) => {
         if (a.startDate > b.startDate) return 1
         if (b.startDate > a.startDate) return -1
         return 0
       })
-      return userData.bookingData[0]
+      return {
+        userData: resUsers.data,
+        bookingData: resBooking.data,
+        garagesData: resGarages.data
+      }
+    })
+  },
+  data() {
+    return {
+      parkingimg
+      // userData,
+      // garagesData
+    }
+  },
+  computed: {
+    nextBookingGarage() {
+      // userData.bookingData.sort((a, b) => {
+      //   if (a.startDate > b.startDate) return 1
+      //   if (b.startDate > a.startDate) return -1
+      //   return 0
+      // })
+      return this.bookingData[0]
     },
     garagesNearby() {
-      return garagesData.filter((el) => {
+      return this.garagesData.filter((el) => {
         return el.location === this.actualUserLocation
       })
     },
     actualUserLocation() {
-      return userData.actualLocation
+      return this.userData.actualLocation
     }
   },
   head() {
