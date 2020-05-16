@@ -1,93 +1,96 @@
 <template>
   <div>
+    <h1>Datos de tus reservas</h1>
     <v-card v-if="isStarted" flat class="counter mx-auto"
       >TIEMPO QUE QUEDA</v-card
     >
-    <v-card max-width="500" outlined class="mx-auto">
-      <v-card-title class="text-uppercase headline"
-        >Datos de la reserva</v-card-title
+    <div class="d-flex flex-wrap">
+      <v-card
+        v-for="(bookingGarage, index) in bookingGaragesSort"
+        :key="index"
+        class="mx-2 mt-2"
       >
-      <v-divider></v-divider>
-      <v-list>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="text-uppercase title"
-              >Inicio</v-list-item-title
-            >
-            <v-list-item-subtitle class="subtitle-1">
-              {{ userData.booking.startDate }}
-            </v-list-item-subtitle>
-            <v-list-item-subtitle class="subtitle-1">
-              {{ userData.booking.startTime }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-content>
-            <v-list-item-title class="text-uppercase title"
-              >Fin</v-list-item-title
-            >
-            <v-list-item-subtitle class="subtitle-1">
-              {{ userData.booking.endDate }}
-            </v-list-item-subtitle>
-            <v-list-item-subtitle class="subtitle-1">
-              {{ userData.booking.endTime }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-divider></v-divider>
-      <v-list two-line subheader>
-        <v-subheader class="title">Datos del aparcamiento</v-subheader>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>Dirección</v-list-item-title>
-            <v-list-item-subtitle>
-              {{ garageRent.address }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>Dimensiones</v-list-item-title>
-            <v-list-item-subtitle>
-              Área: {{ garageRent.area }} m² / Altura máx:
-              {{ garageRent.height }} m
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>Propietario</v-list-item-title>
-            <v-list-item-subtitle>
-              {{ garageRent.owner }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-list>
-        <v-list-item class="d-flex flex-column flex-md-row">
-          <v-list-item-content>
-            <v-list-item-title class="text-uppercase title"
-              >Coste total</v-list-item-title
-            >
-          </v-list-item-content>
-          <v-list-item-content>
-            <v-list-item-subtitle>
-              {{ garageRent.unitPrice }} €/hora
-            </v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-content>
-            <v-list-item-title class="font-weight-bold">
-              {{ finalPrice }} €
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-card-actions>
-        <v-btn depressed color="success">Check-in</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn depressed outlined color="error">Anular reserva</v-btn>
-      </v-card-actions>
-    </v-card>
+        <v-list dark color="accent">
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="text-uppercase title"
+                >Inicio</v-list-item-title
+              >
+              <v-list-item-subtitle class="subtitle-1">
+                {{ bookingGarage.startDate }}
+              </v-list-item-subtitle>
+              <v-list-item-subtitle class="subtitle-1">
+                {{ bookingGarage.startTime }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-content>
+              <v-list-item-title class="text-uppercase title"
+                >Fin</v-list-item-title
+              >
+              <v-list-item-subtitle class="subtitle-1">
+                {{ bookingGarage.endDate }}
+              </v-list-item-subtitle>
+              <v-list-item-subtitle class="subtitle-1">
+                {{ bookingGarage.endTime }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-divider></v-divider>
+        <v-list two-line subheader>
+          <v-subheader class="title">Datos del aparcamiento</v-subheader>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Dirección</v-list-item-title>
+              <v-list-item-subtitle>
+                {{ garageRent(bookingGarage.garageId).address }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Dimensiones</v-list-item-title>
+              <v-list-item-subtitle>
+                Área: {{ garageRent(bookingGarage.garageId).area }} m² / Altura
+                máx: {{ garageRent(bookingGarage.garageId).height }} m
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Propietario</v-list-item-title>
+              <v-list-item-subtitle>
+                {{ garageRent(bookingGarage.garageId).owner }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-list>
+          <v-list-item class="d-flex flex-column flex-md-row">
+            <v-list-item-content>
+              <v-list-item-title class="text-uppercase title"
+                >Precio</v-list-item-title
+              >
+            </v-list-item-content>
+            <v-list-item-content>
+              <v-list-item-subtitle>
+                {{ garageRent(bookingGarage.garageId).unitPrice }} €/hora
+              </v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-content>
+              <v-list-item-title class="font-weight-bold title">
+                {{ bookingGarage.totalPrice }} €
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-card-actions>
+          <v-btn depressed outlined color="error">Anular reserva</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn depressed color="success">Check-in</v-btn>
+        </v-card-actions>
+      </v-card>
+    </div>
   </div>
 </template>
 
@@ -102,16 +105,22 @@ export default {
     }
   },
   computed: {
+    bookingGaragesSort() {
+      userData.bookingData.sort((a, b) => {
+        if (a.startDate > b.startDate) return 1
+        if (b.startDate > a.startDate) return -1
+        return 0
+      })
+      return userData.bookingData
+    },
     isStarted() {
       return false
-    },
-    finalPrice() {
-      const totalHours = 18
-      return this.garageRent.unitPrice * totalHours
-    },
-    garageRent() {
+    }
+  },
+  methods: {
+    garageRent(id) {
       const garage = garagesData.filter((el) => {
-        return el.id === userData.booking.garageId
+        return el.id === id
       })
       return garage[0]
     }

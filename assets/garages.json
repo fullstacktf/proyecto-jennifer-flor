@@ -1,6 +1,7 @@
 [
   {
     "address": "address1",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel lectus eget lorem vestibulum faucibus non in tortor. Nulla eget lorem tempus lacus pellentesque molestie et id quam. Maecenas id felis ac turpis gravida egestas. Pellentesque gravida rhoncus nunc, sed fermentum libero pretium a. In a magna pulvinar, fermentum nulla ut, tempus purus. Etiam eu varius ex, ut commodo odio. Suspendisse elementum elementum nibh, non feugiat dui imperdiet quis. Ut auctor id dui nec sodales. Duis consequat dui mi, nec volutpat arcu pulvinar vitae.",
     "location": "Santa Cruz de Tenerife",
     "owner": "owner1",
     "unitPrice": 0.5,
@@ -12,6 +13,7 @@
   },
   {
     "address": "address2",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel lectus eget lorem vestibulum faucibus non in tortor. Nulla eget lorem tempus lacus pellentesque molestie et id quam. Maecenas id felis ac turpis gravida egestas. Pellentesque gravida rhoncus nunc, sed fermentum libero pretium a. In a magna pulvinar, fermentum nulla ut, tempus purus. Etiam eu varius ex, ut commodo odio. Suspendisse elementum elementum nibh, non feugiat dui imperdiet quis. Ut auctor id dui nec sodales. Duis consequat dui mi, nec volutpat arcu pulvinar vitae.",
     "location": "Santa Cruz de Tenerife",
     "owner": "owner2",
     "unitPrice": 1,
@@ -23,6 +25,7 @@
   },
   {
     "address": "address3",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel lectus eget lorem vestibulum faucibus non in tortor. Nulla eget lorem tempus lacus pellentesque molestie et id quam. Maecenas id felis ac turpis gravida egestas. Pellentesque gravida rhoncus nunc, sed fermentum libero pretium a. In a magna pulvinar, fermentum nulla ut, tempus purus. Etiam eu varius ex, ut commodo odio. Suspendisse elementum elementum nibh, non feugiat dui imperdiet quis. Ut auctor id dui nec sodales. Duis consequat dui mi, nec volutpat arcu pulvinar vitae.",
     "location": "San Cristóbal de La Laguna",
     "owner": "owner3",
     "unitPrice": 0.5,
@@ -34,6 +37,7 @@
   },
   {
     "address": "address4",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel lectus eget lorem vestibulum faucibus non in tortor. Nulla eget lorem tempus lacus pellentesque molestie et id quam. Maecenas id felis ac turpis gravida egestas. Pellentesque gravida rhoncus nunc, sed fermentum libero pretium a. In a magna pulvinar, fermentum nulla ut, tempus purus. Etiam eu varius ex, ut commodo odio. Suspendisse elementum elementum nibh, non feugiat dui imperdiet quis. Ut auctor id dui nec sodales. Duis consequat dui mi, nec volutpat arcu pulvinar vitae.",
     "location": "Santa Cruz de Tenerife",
     "owner": "owner4",
     "unitPrice": 1.2,
@@ -45,6 +49,7 @@
   },
   {
     "address": "address5",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel lectus eget lorem vestibulum faucibus non in tortor. Nulla eget lorem tempus lacus pellentesque molestie et id quam. Maecenas id felis ac turpis gravida egestas. Pellentesque gravida rhoncus nunc, sed fermentum libero pretium a. In a magna pulvinar, fermentum nulla ut, tempus purus. Etiam eu varius ex, ut commodo odio. Suspendisse elementum elementum nibh, non feugiat dui imperdiet quis. Ut auctor id dui nec sodales. Duis consequat dui mi, nec volutpat arcu pulvinar vitae.",
     "location": "Santa Cruz de Tenerife",
     "owner": "owner5",
     "unitPrice": 0.5,
