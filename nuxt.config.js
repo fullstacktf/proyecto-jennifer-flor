@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+require('dotenv').config()
 
 export default {
   mode: 'spa',
@@ -60,7 +61,7 @@ export default {
           sendHitTask: true
         }
       },
-      ['@nuxtjs/dotenv', { systemvars: true }]
+      ['@nuxtjs/dotenv']
     ],
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios'
