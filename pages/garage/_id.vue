@@ -176,25 +176,44 @@
               >
                 <v-icon>mdi-car</v-icon> Reservar
               </v-btn>
-              <v-dialog v-model="confirmationMessage">
+              <v-dialog v-model="confirmationMessage" max-width="700">
                 <v-card>
                   <v-card-title class="headline"
                     >¿Seguro que quieres reservar?</v-card-title
                   >
                   <v-card-subtitle class="subtitle-1 mt-1"
-                    >Revisa que estos datos sean correctos</v-card-subtitle
+                    >Revisa que estos datos sean correctos. Esto reservará tu
+                    aparcamiento, el pago se realizará cuando hagas el
+                    Check-In.</v-card-subtitle
                   >
-
-                  <v-card-text class="headline">
-                    <v-icon left>mdi-arrow-right-bold</v-icon>
-                    Entrada: {{ date[0] }} a las {{ startTime }}
+                  <v-divider></v-divider>
+                  <div class="d-flex">
+                    <v-card-text class="title mt-3">
+                      <v-icon left>mdi-arrow-right-bold</v-icon>
+                      Entrada
+                    </v-card-text>
+                    <v-divider vertical></v-divider>
+                    <v-card-text class="title mt-3">
+                      {{ date[0] }} a las {{ startTime }}
+                    </v-card-text>
+                  </div>
+                  <div class="d-flex">
+                    <v-card-text class="title">
+                      <v-icon left>mdi-arrow-left-bold</v-icon>
+                      Salida
+                    </v-card-text>
+                    <v-divider vertical></v-divider>
+                    <v-card-text class="title">
+                      {{ date[1] }} a las {{ endTime }}
+                    </v-card-text>
+                  </div>
+                  <v-divider></v-divider>
+                  <v-card-text class="title mt-4">
+                    <v-icon left>mdi-map-marker</v-icon>
+                    Dirección: {{ garage.address }}
                   </v-card-text>
-                  <v-card-text class="headline">
-                    <v-icon left>mdi-arrow-left-bold</v-icon>
-                    Salida:
-                    {{ date[1] }} a las {{ endTime }}
-                  </v-card-text>
-                  <v-card-text class="display-1 text-right">
+                  <v-divider></v-divider>
+                  <v-card-text class="display-1 text-right mt-4">
                     Precio: {{ totalPrice }} €
                   </v-card-text>
 
@@ -204,11 +223,16 @@
                       text
                       @click="confirmationMessage = false"
                     >
-                      Cancelar
+                      Cerrar
                     </v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn color="success" outlined @click="bookingGarage">
-                      Reservar
+                    <v-btn
+                      color="success"
+                      depressed
+                      large
+                      @click="bookingGarage"
+                    >
+                      <v-icon left>mdi-checkbox-marked</v-icon>Reservar
                     </v-btn>
                   </v-card-actions>
                 </v-card>

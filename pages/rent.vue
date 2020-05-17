@@ -97,6 +97,19 @@
         </v-card-actions>
       </v-card>
     </div>
+    <v-alert
+      v-if="bookingData.length === 0"
+      max-width="600"
+      border="top"
+      colored-border
+      type="info"
+      elevation="1"
+      class="mx-auto my-5"
+    >
+      Actualmente no tienes aparcamientos reservados. Puedes encontrar
+      aparcamientos a través del
+      <nuxt-link to="/search">buscador de nuestra aplicación</nuxt-link>.
+    </v-alert>
   </div>
 </template>
 
