@@ -59,6 +59,7 @@ const attemptSignUp = ({ commit }, credentials) => {
       .signup(credentials.email, credentials.password)
       .then((response) => {
         console.log('Confirmation email sent', response)
+        commit('TOGGLE_LOAD')
         resolve(response)
       })
       .catch((error) => {
