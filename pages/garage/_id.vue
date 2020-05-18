@@ -1,15 +1,23 @@
 <template>
   <div>
-    <v-img :src="garage.imagen" aspect-ratio="2.7"></v-img>
-    <v-list two-line subheader>
+    <v-card flat>
+      <v-img :src="garage.imagen" aspect-ratio="2.7"></v-img>
+    </v-card>
+
+    <v-list two-line subheader class="pr-3">
       <v-subheader class="title mt-4">Descripción</v-subheader>
       <v-list-item>
         <v-list-item-content>
           {{ garage.description }}
         </v-list-item-content>
       </v-list-item>
+
       <div class="d-flex flex-column flex-md-row">
         <div>
+          <v-chip class="ma-2 px-8" x-large color="primary">
+            <v-icon left>mdi-cash-multiple</v-icon>
+            {{ garage.unitPrice }} €/hora
+          </v-chip>
           <v-subheader class="title">Datos del aparcamiento</v-subheader>
           <v-list-item>
             <v-list-item-content>
@@ -43,12 +51,10 @@
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-chip class="ma-2 px-8" x-large color="secondary">
-            <v-icon left>mdi-cash-multiple</v-icon>
-            {{ garage.unitPrice }} €/hora
-          </v-chip>
         </div>
+
         <v-spacer></v-spacer>
+
         <v-form ref="form" v-model="validForm">
           <v-card outlined min-width="600">
             <v-card-title>Consultar disponibilidad</v-card-title>
@@ -242,6 +248,7 @@
         </v-form>
       </div>
     </v-list>
+
     <v-card flat class="my-8 pa-4">
       <v-card-title class="text-uppercase display-1">Reseñas</v-card-title>
       <v-rating

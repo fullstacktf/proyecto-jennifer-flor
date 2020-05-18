@@ -1,10 +1,12 @@
 <template>
   <nav>
     <v-app-bar app flat>
-      <v-toolbar-title>
-        GarageMe
-        <logo-icon class="ml-1"></logo-icon>
-      </v-toolbar-title>
+      <nuxt-link to="/">
+        <v-toolbar-title class="font-weight-black headline">
+          GarageMe
+          <logo-icon class="ml-1"></logo-icon>
+        </v-toolbar-title>
+      </nuxt-link>
       <v-spacer></v-spacer>
       <notification-menu v-if="isVisible"></notification-menu>
       <v-btn v-if="isVisible" class="ml-3" outlined nuxt to="/search">
@@ -99,8 +101,18 @@ export default {
 
 <style>
 .theme--light.v-app-bar.v-toolbar.v-sheet {
-  background-color: #fff;
+  background-color: #fff !important;
   border-bottom: 2px solid #ccc;
+}
+
+.theme--light.v-app-bar.v-toolbar.v-sheet a {
+  color: rgba(0, 0, 0, 0.87);
+  text-decoration: none;
+}
+
+.theme--dark.v-toolbar.v-sheet a {
+  color: #fff;
+  text-decoration: none;
 }
 
 .theme--dark.v-toolbar.v-sheet {
@@ -108,7 +120,7 @@ export default {
 }
 
 .theme--light.v-navigation-drawer {
-  background-color: #eeeeee;
+  background-color: #eeeeee !important;
   border-color: #eeeeee;
 }
 </style>

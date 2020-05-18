@@ -24,3 +24,8 @@ export default {
   }
 }
 </script>
+<style>
+.theme--light.v-application {
+  background: #f5f5f5;
+}
+</style>

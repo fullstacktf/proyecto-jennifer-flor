@@ -11,7 +11,11 @@
         label="Localización"
       ></v-text-field>
     </v-form>
-    <v-card flat class="d-inline-flex flex-wrap justify-center">
+    <v-card
+      color="transparent"
+      flat
+      class="d-inline-flex flex-wrap justify-center"
+    >
       <garage-card
         v-for="(garage, index) in garagesData"
         :key="index"

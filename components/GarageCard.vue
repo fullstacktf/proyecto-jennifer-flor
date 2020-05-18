@@ -1,5 +1,5 @@
 <template>
-  <v-card color="brown lighten-5" :width="width">
+  <v-card :width="width">
     <v-img height="200px" :src="garage.imagen"></v-img>
     <v-list-item three-line>
       <v-list-item-content>
