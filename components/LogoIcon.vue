@@ -38,10 +38,11 @@ export default {
     height: {
       type: [Number, String],
       default: 18
-    },
-    color: {
-      type: String,
-      default: '#1a1a1a'
+    }
+  },
+  computed: {
+    color() {
+      return this.$vuetify.theme.dark ? '#fff' : '#1a1a1a'
     }
   }
 }
