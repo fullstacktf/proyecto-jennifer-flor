@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import NotificationMenu from '@/components/NotificationMenu'
 import LogoIcon from '@/components/LogoIcon'
 
@@ -73,15 +74,15 @@ export default {
     }
   },
   methods: {
+    ...mapActions('modules/auth', ['attemptLogout']),
     logOut() {
-      event.preventDefault()
-      const user = this.$auth.currentUser()
-      if (!user) {
-        return user.logout().then(
-          (response) => (window.location.href = '/'),
-          (error) => console.error('Failed to logout user: ', error)
-        )
-      }
+      this.attemptLogout()
+        .then(() => {
+          window.location.href = 'https://garageme.es/'
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
