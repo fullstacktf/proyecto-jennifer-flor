@@ -39,6 +39,7 @@
             inset
             label="Modo noche"
             append-icon="mdi-weather-night"
+            @change="saveDarkThemeOption"
           ></v-switch>
         </v-list-item>
       </v-list>
@@ -69,7 +70,6 @@ export default {
         { icon: 'mdi-home', title: 'Inicio', to: '/' },
         { icon: 'mdi-account', title: 'Perfil', to: '/profile' },
         { icon: 'mdi-car', title: 'Reservas', to: '/rent' }
-        // { icon: 'mdi-cog', title: 'Configuración', to: '/settings' }
       ]
     }
   },
@@ -84,6 +84,12 @@ export default {
       return true
     }
   },
+  created() {
+    const darkMode = JSON.parse(localStorage.getItem('dark-mode'))
+    darkMode
+      ? (this.$vuetify.theme.dark = true)
+      : (this.$vuetify.theme.dark = false)
+  },
   methods: {
     ...mapActions('modules/auth', ['attemptLogout']),
     logOut() {
@@ -94,6 +100,12 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    saveDarkThemeOption() {
+      localStorage.setItem(
+        'dark-mode',
+        JSON.stringify(this.$vuetify.theme.dark)
+      )
     }
   }
 }
