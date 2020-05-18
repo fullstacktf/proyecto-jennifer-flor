@@ -5,7 +5,7 @@ export default {
   mode: 'spa',
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-    apiUrl: process.env.API_URL || 'http://localhost:3001'
+    apiUrl: process.env.API_URL
   },
   /*
    ** Headers of the page
