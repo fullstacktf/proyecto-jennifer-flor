@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-card class="d-flex" tile="true" height="400">
+    <v-card class="d-flex" :tile="true" height="400">
       <v-container>
-        <v-bottom-navigation v-model="formType" grow="true" class="navBar">
+        <v-bottom-navigation v-model="formType" :grow="true" class="navBar">
           <v-btn value="login">
             <h2>Iniciar Sesión</h2>
           </v-btn>
@@ -14,11 +14,11 @@
         <v-card-text>
           <v-form v-if="formType === 'login'">
             <v-text-field
-              v-model="user"
+              v-model="loginCreds.email"
               label="Usuario o Correo electrónico"
             ></v-text-field>
             <v-text-field
-              v-model="password"
+              v-model="loginCreds.password"
               type="password"
               label="Contraseña"
             ></v-text-field>
@@ -28,11 +28,11 @@
           </v-form>
           <v-form v-if="formType === 'signup'">
             <v-text-field
-              v-model="email"
+              v-model="signupCreds.email"
               label="Correo electrónico"
             ></v-text-field>
             <v-text-field
-              v-model="pass"
+              v-model="signupCreds.password"
               type="password"
               label="Contraseña"
             ></v-text-field>
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import authImg from '../assets/auth.jpg'
 
 export default {
@@ -53,29 +54,38 @@ export default {
   data() {
     return {
       formType: 'login',
-      user: '',
-      password: '',
-      email: '',
-      pass: '',
+      loginCreds: {
+        email: null,
+        password: null
+      },
+      signupCreds: {
+        email: null,
+        password: null
+      },
       authImg
     }
   },
+  computed: {},
   methods: {
+    ...mapActions('modules/auth', ['attemptLogin', 'attemptSignUp']),
     signUp() {
-      event.preventDefault()
-      this.$auth
-        .signup(this.email, this.pass)
-        .then((response) =>
-          console.log('Confirmation email sent', JSON.stringify(response))
-        )
-        .catch((error) => console.log("It's an error", error))
+      this.attemptSignUp(this.signupCreds)
+        .then(() => {
+          console.log(
+            'You have successfully signed up. Check your email to confirm your account.'
+          )
+        })
+        .catch((error) => console.log(error))
     },
     logIn() {
-      event.preventDefault()
-      this.$auth
-        .login(this.user, this.password)
-        .then((response) => console.log('Loged In', JSON.stringify(response)))
-        .catch((error) => console.error('Failed to log in', error))
+      const token = window.location.hash.replace('#confirmation_token=', '')
+      this.attemptLogin({ token, ...this.loginCreds })
+        .then(() => {
+          window.location.href = '/'
+        })
+        .catch((err) => {
+          console.log('Oops! Looks like something is wrong! ', err)
+        })
     }
   },
   head() {
