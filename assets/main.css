@@ -1,0 +1,35 @@
+.page-enter-active {
+  animation: page-in 0.5s;
+}
+
+.page-leave-active {
+  animation: page-out 0.5s;
+}
+
+@keyframes page-in {
+  0% {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes page-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+}

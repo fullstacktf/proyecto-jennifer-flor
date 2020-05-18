@@ -176,25 +176,44 @@
               >
                 <v-icon>mdi-car</v-icon> Reservar
               </v-btn>
-              <v-dialog v-model="confirmationMessage">
+              <v-dialog v-model="confirmationMessage" max-width="700">
                 <v-card>
                   <v-card-title class="headline"
                     >¿Seguro que quieres reservar?</v-card-title
                   >
                   <v-card-subtitle class="subtitle-1 mt-1"
-                    >Revisa que estos datos sean correctos</v-card-subtitle
+                    >Revisa que estos datos sean correctos. Esto reservará tu
+                    aparcamiento, el pago se realizará cuando hagas el
+                    Check-In.</v-card-subtitle
                   >
-
-                  <v-card-text class="headline">
-                    <v-icon left>mdi-arrow-right-bold</v-icon>
-                    Entrada: {{ date[0] }} a las {{ startTime }}
+                  <v-divider></v-divider>
+                  <div class="d-flex">
+                    <v-card-text class="title mt-3">
+                      <v-icon left>mdi-arrow-right-bold</v-icon>
+                      Entrada
+                    </v-card-text>
+                    <v-divider vertical></v-divider>
+                    <v-card-text class="title mt-3">
+                      {{ date[0] }} a las {{ startTime }}
+                    </v-card-text>
+                  </div>
+                  <div class="d-flex">
+                    <v-card-text class="title">
+                      <v-icon left>mdi-arrow-left-bold</v-icon>
+                      Salida
+                    </v-card-text>
+                    <v-divider vertical></v-divider>
+                    <v-card-text class="title">
+                      {{ date[1] }} a las {{ endTime }}
+                    </v-card-text>
+                  </div>
+                  <v-divider></v-divider>
+                  <v-card-text class="title mt-4">
+                    <v-icon left>mdi-map-marker</v-icon>
+                    Dirección: {{ garage.address }}
                   </v-card-text>
-                  <v-card-text class="headline">
-                    <v-icon left>mdi-arrow-left-bold</v-icon>
-                    Salida:
-                    {{ date[1] }} a las {{ endTime }}
-                  </v-card-text>
-                  <v-card-text class="display-1 text-right">
+                  <v-divider></v-divider>
+                  <v-card-text class="display-1 text-right mt-4">
                     Precio: {{ totalPrice }} €
                   </v-card-text>
 
@@ -204,17 +223,16 @@
                       text
                       @click="confirmationMessage = false"
                     >
-                      Cancelar
+                      Cerrar
                     </v-btn>
                     <v-spacer></v-spacer>
                     <v-btn
                       color="success"
-                      outlined
-                      nuxt
-                      to="/rent"
+                      depressed
+                      large
                       @click="bookingGarage"
                     >
-                      Reservar
+                      <v-icon left>mdi-checkbox-marked</v-icon>Reservar
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -271,12 +289,23 @@
 </template>
 
 <script>
-import garagesData from '@/assets/garages.json'
+// import garagesData from '@/assets/garages.json'
 export default {
   name: 'Garage',
+  asyncData({ $axios, params, error }) {
+    return $axios
+      .get(`${process.env.apiUrl}/garages/${params.id}`)
+      .then((res) => {
+        return { garage: res.data }
+      })
+      .catch((e) => {
+        error({ statusCode: 404, message: 'Este garage no existe' })
+      })
+  },
   data() {
     return {
-      garagesData,
+      // garagesData,
+      garage: '',
       date: [new Date().toISOString().substr(0, 10)],
       startTime: '',
       endTime: '',
@@ -298,11 +327,12 @@ export default {
     dateFormatted() {
       return this.getDateFormatted()
     },
-    garage() {
-      return garagesData.filter((el) => {
-        return el.id === parseInt(this.$route.params.id)
-      })[0]
-    },
+    // garage() {
+    //   return this.garageData.id
+    //   // return this.garagesData.filter((el) => {
+    //   //   return el.id === parseInt(this.$route.params.id)
+    //   // })[0]
+    // },
     totalHours() {
       const firstDay = parseInt(this.date[0].substr(7, 8))
       const secondDay = this.date[1]
@@ -328,10 +358,22 @@ export default {
       if (!this.$refs.form.validate()) return
       this.confirmationMessage = true
     },
-    bookingGarage() {
+    async bookingGarage() {
       if (!this.$refs.form.validate()) return
+      if (!this.date[1]) this.date[1] = this.date[0]
+      await this.$axios.post(`${process.env.apiUrl}/bookingData`, {
+        userId: 1,
+        garageId: this.garage.id,
+        checkIn: false,
+        startDate: this.date[0],
+        startTime: this.startTime,
+        endDate: this.date[1],
+        endTime: this.endTime,
+        totalPrice: this.totalPrice
+      })
       this.confirmationMessage = false
       this.$refs.form.reset()
+      this.$router.push('/rent')
     }
   }
 }

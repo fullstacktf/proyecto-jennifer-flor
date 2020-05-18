@@ -1,7 +1,11 @@
 <template>
   <div light>
     <h1 class="mt-4 display-2 text-center">¡Hola, {{ userData.name }}!</h1>
-    <v-card class="my-10 mx-auto" max-width="900">
+    <v-card
+      v-if="nextBookingGarage !== false"
+      class="my-10 mx-auto"
+      max-width="900"
+    >
       <v-card-title class="headline font-weight-bold text-uppercase"
         >Sobre tu próxima reserva</v-card-title
       >
@@ -50,7 +54,6 @@
         <v-btn color="success" depressed>Check-In</v-btn>
       </v-card-actions>
     </v-card>
-    <h2>Aparcamientos cerca de ti</h2>
     <v-card
       max-width="400"
       flat
@@ -67,6 +70,9 @@
         <v-icon>mdi-map-marker</v-icon>{{ actualUserLocation }}
       </v-card-subtitle>
     </v-card>
+    <h2 class="text-center mt-8 mb-6 display-1 font-weight-bold">
+      Aparcamientos cerca de ti
+    </h2>
     <v-card flat class="d-flex flex-wrap justify-center">
       <garage-card
         v-for="(garage, index) in garagesNearby"
@@ -92,8 +98,8 @@
 </template>
 
 <script>
-import userData from '@/assets/userdata.json'
-import garagesData from '@/assets/garages.json'
+// import userData from '@/assets/userdata.json'
+// import garagesData from '@/assets/garages.json'
 import parkingimg from '@/assets/parking.png'
 import GarageCard from '@/components/GarageCard'
 export default {
@@ -102,29 +108,52 @@ export default {
   components: {
     GarageCard
   },
-  data() {
-    return {
-      parkingimg,
-      userData,
-      garagesData
-    }
-  },
-  computed: {
-    nextBookingGarage() {
-      userData.bookingData.sort((a, b) => {
+  asyncData({ $axios, params }) {
+    return Promise.all([
+      $axios.get(`${process.env.apiUrl}/users/1`),
+      $axios.get(`${process.env.apiUrl}/bookingData`),
+      $axios.get(`${process.env.apiUrl}/garages`)
+    ]).then(([resUsers, resBooking, resGarages]) => {
+      resBooking.data.sort((a, b) => {
         if (a.startDate > b.startDate) return 1
         if (b.startDate > a.startDate) return -1
         return 0
       })
-      return userData.bookingData[0]
+      return {
+        userData: resUsers.data,
+        bookingData: resBooking.data,
+        garagesData: resGarages.data
+      }
+    })
+  },
+  data() {
+    return {
+      parkingimg
+      // userData,
+      // garagesData
+    }
+  },
+  computed: {
+    nextBookingGarage() {
+      // userData.bookingData.sort((a, b) => {
+      //   if (a.startDate > b.startDate) return 1
+      //   if (b.startDate > a.startDate) return -1
+      //   return 0
+      // })
+      const data = this.bookingData.length > 0 ? this.bookingData[0] : false
+      return data
     },
     garagesNearby() {
-      return garagesData.filter((el) => {
+      return this.garagesData.filter((el) => {
         return el.location === this.actualUserLocation
       })
     },
     actualUserLocation() {
-      return userData.actualLocation
+      const userLocation =
+        this.userData.actualLocation === null
+          ? this.userData.location
+          : this.userData.actualLocation
+      return userLocation
     }
   },
   head() {

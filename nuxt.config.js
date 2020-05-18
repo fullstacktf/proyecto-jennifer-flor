@@ -1,7 +1,12 @@
 import colors from 'vuetify/es5/util/colors'
+require('dotenv').config()
 
 export default {
   mode: 'spa',
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    apiUrl: process.env.API_URL
+  },
   /*
    ** Headers of the page
    */
@@ -28,7 +33,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['~/assets/main.css'],
   /*
    ** Plugins to load before mounting the App
    */
@@ -55,7 +60,8 @@ export default {
           enabled: true,
           sendHitTask: true
         }
-      }
+      },
+      ['@nuxtjs/dotenv']
     ],
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios'

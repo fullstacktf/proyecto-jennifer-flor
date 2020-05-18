@@ -1,12 +1,11 @@
 <template>
   <v-card color="brown lighten-5" :width="width">
     <v-img height="200px" :src="garage.imagen"></v-img>
-    <!-- <v-card-title>{{ garage.location }}</v-card-title> -->
     <v-list-item three-line>
       <v-list-item-content>
-        <v-list-item-title class="title">{{
-          garage.location
-        }}</v-list-item-title>
+        <v-list-item-title class="title"
+          >En {{ garage.location }}</v-list-item-title
+        >
         <v-list-item-subtitle>{{ garage.description }}</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
