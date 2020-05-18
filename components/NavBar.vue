@@ -18,7 +18,7 @@
     <v-navigation-drawer v-model="drawer" app right>
       <v-list>
         <v-list-item
-          v-for="item in items"
+          v-for="item in menuItems"
           :key="item.title"
           :to="item.to"
           router
@@ -29,6 +29,15 @@
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
+        </v-list-item>
+        <v-list-item class="mt-4">
+          <v-switch
+            v-model="$vuetify.theme.dark"
+            color="secondary"
+            inset
+            label="Modo noche"
+            append-icon="mdi-weather-night"
+          ></v-switch>
         </v-list-item>
       </v-list>
       <div class="pa-2">
@@ -54,11 +63,11 @@ export default {
   data() {
     return {
       drawer: false,
-      items: [
+      menuItems: [
         { icon: 'mdi-home', title: 'Inicio', to: '/' },
         { icon: 'mdi-account', title: 'Perfil', to: '/profile' },
-        { icon: 'mdi-car', title: 'Reservas', to: '/rent' },
-        { icon: 'mdi-cog', title: 'Configuración', to: '/settings' }
+        { icon: 'mdi-car', title: 'Reservas', to: '/rent' }
+        // { icon: 'mdi-cog', title: 'Configuración', to: '/settings' }
       ]
     }
   },
