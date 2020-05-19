@@ -1,52 +1,83 @@
 <template>
   <div>
     <h1>¿Dónde buscas aparcamiento?</h1>
-    <v-form class="my-8">
-      <v-text-field
-        v-model="search"
-        outlined
-        append-icon="mdi-magnify"
-        clearable
-        placeholder="Ejemplo: Santa Cruz de Tenerife"
-        label="Localización"
-      ></v-text-field>
-    </v-form>
-    <v-card
-      color="transparent"
-      flat
-      class="d-inline-flex flex-wrap justify-center"
+
+    <v-data-iterator
+      hide-default-footer
+      :search.sync="search"
+      :page.sync="page"
+      :sort-by="sortBy.toLowerCase()"
+      :sort-desc="sortDesc"
+      :items="garagesData"
+      :items-per-page="itemsPerPage"
+      no-results-text="No se encuentran resultados"
     >
-      <garage-card
-        v-for="(garage, index) in garagesData"
-        :key="index"
-        :garage="garage"
-        class="ma-1"
-      ></garage-card
-    ></v-card>
-    <pagination class="ma-1"></pagination>
+      <template v-slot:header>
+        <search-location-bar
+          class="mt-6 mb-3"
+          @search="getSearch"
+        ></search-location-bar>
+      </template>
+      <template v-slot:default="props">
+        <v-card
+          color="transparent"
+          flat
+          width="100%"
+          class="d-inline-flex flex-wrap justify-center"
+        >
+          <garage-card
+            v-for="(garage, index) in props.items"
+            :key="index"
+            :garage="garage"
+            class="ma-1"
+          ></garage-card>
+        </v-card>
+      </template>
+      <template v-slot:footer="props">
+        <pagination
+          :length="props.pagination.pageCount"
+          class="ma-1"
+          @page="getNumberPage"
+        ></pagination>
+      </template>
+    </v-data-iterator>
   </div>
 </template>
 
 <script>
-import garagesData from '../assets/garages.json'
-import GarageCard from '../components/GarageCard.vue'
-import pagination from '../components/Pagination.vue'
+import garagesData from '@/assets/garages.json'
+import GarageCard from '@/components/GarageCard.vue'
+import Pagination from '@/components/Pagination.vue'
+import SearchLocationBar from '@/components/SearchLocationBar'
 
 export default {
   name: 'Search',
   components: {
+    SearchLocationBar,
     GarageCard,
-    pagination
+    Pagination
   },
   data() {
     return {
+      garagesData,
       search: '',
-      garagesData
+      sortBy: 'rating',
+      sortDesc: true,
+      itemsPerPage: 2,
+      page: 1
+    }
+  },
+  methods: {
+    getSearch(query) {
+      this.search = query
+    },
+    getNumberPage(number) {
+      this.page = number
     }
   },
   head() {
     return {
-      title: 'Buscador'
+      title: 'Buscador de aparcamientos'
     }
   }
 }
