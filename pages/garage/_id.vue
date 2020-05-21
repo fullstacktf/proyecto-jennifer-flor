@@ -60,7 +60,11 @@
 
         <v-spacer></v-spacer>
 
-        <garage-availibity :garage="garage"></garage-availibity>
+        <garage-availibity
+          :garage="garage"
+          :not-allowed-dates="notAllowedDates"
+          :booking-data="checksDates"
+        ></garage-availibity>
       </div>
     </v-list>
 
@@ -71,6 +75,7 @@
 <script>
 import GarageReviews from '@/components/GarageReviews'
 import GarageAvailibity from '@/components/GarageAvailibity'
+
 export default {
   name: 'Garage',
   components: {
@@ -78,13 +83,50 @@ export default {
     GarageAvailibity
   },
   asyncData({ $axios, params, error }) {
-    return $axios
-      .get(`${process.env.apiUrl}/garages/${params.id}`)
-      .then((res) => {
-        return { garage: res.data }
+    return Promise.all([
+      $axios.get(`${process.env.apiUrl}/garages/${params.id}`),
+      $axios.get(`${process.env.apiUrl}/bookingData?garageId=${params.id}`)
+    ])
+      .then(([resGarages, resDates]) => {
+        const notAllowedDates = []
+        const checksDates = []
+
+        resDates.data.forEach((val) => {
+          checksDates.push({
+            startDate: val.startDate,
+            startTime: parseInt(val.startTime.substr(0, 2)),
+            endDate: val.endDate,
+            endTime: parseInt(val.endTime.substr(0, 2))
+          })
+          let arrayRestrictedDates = []
+
+          const date = new Date(val.startDate)
+
+          const endDate = new Date(val.endDate)
+
+          date.setDate(date.getDate() + 1)
+
+          // eslint-disable-next-line no-unmodified-loop-condition
+          while (date < endDate) {
+            arrayRestrictedDates = [
+              ...arrayRestrictedDates,
+              new Date(date).toISOString().substr(0, 10)
+            ]
+            date.setDate(date.getDate() + 1)
+          }
+
+          arrayRestrictedDates.forEach((v) => {
+            notAllowedDates.push(v)
+          })
+        })
+        return {
+          garage: resGarages.data,
+          notAllowedDates,
+          checksDates
+        }
       })
       .catch((e) => {
-        error({ statusCode: 404, message: 'Este garage no existe' })
+        error({ statusCode: 404 })
       })
   }
 }

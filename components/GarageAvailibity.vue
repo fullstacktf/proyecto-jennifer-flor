@@ -3,9 +3,10 @@
     <v-form ref="form" v-model="validForm">
       <v-card outlined min-width="600">
         <v-card-title>Consultar disponibilidad</v-card-title>
-
+        {{ notAllowedDates }}
+        {{ bookingData }}
         <v-card-text>
-          <p>Selecciona las fechas</p>
+          <p>Selecciona el día o días para reservar</p>
 
           <v-menu
             ref="menuDate"
@@ -30,24 +31,24 @@
             <v-date-picker
               v-model="date"
               :min="new Date().toISOString()"
+              :allowed-dates="allowedDates"
               no-title
               scrollable
               range
               locale="es"
               first-day-of-week="1"
             >
-              <v-spacer></v-spacer>
-
-              <v-btn text color="primary" @click="menuDate = false"
+              <v-btn text color="error" @click="menuDate = false"
                 >Cancelar</v-btn
               >
-              <v-btn text color="primary" @click="$refs.menuDate.save(date)"
-                >OK</v-btn
+              <v-spacer></v-spacer>
+              <v-btn outlined color="success" @click="$refs.menuDate.save(date)"
+                >Guardar</v-btn
               >
             </v-date-picker>
           </v-menu>
 
-          <p>Selecciona las horas</p>
+          <p>Selecciona las horas de entrada y salida</p>
 
           <div class="d-flex">
             <v-menu
@@ -64,6 +65,7 @@
                   outlined
                   :value="startTime"
                   :rules="rules"
+                  :error-messages="validateStartHourAllowed"
                   label="Hora de entrada"
                   prepend-inner-icon="mdi-timer-outline"
                   class="mr-2"
@@ -75,9 +77,21 @@
                 v-model="startTime"
                 format="24hr"
                 scrollable
+                :min="getMinStartHour"
                 :allowed-minutes="allowedMinutes"
-                @click:minute="$refs.menuStartTime.save(startTime)"
-              ></v-time-picker>
+                :allowed-hours="allowedStartHours"
+              >
+                <v-btn text color="error" @click="menuStartTime = false"
+                  >Cancelar</v-btn
+                >
+                <v-spacer></v-spacer>
+                <v-btn
+                  outlined
+                  color="success"
+                  @click="$refs.menuStartTime.save(startTime)"
+                  >Guardar</v-btn
+                >
+              </v-time-picker>
             </v-menu>
 
             <v-menu
@@ -93,7 +107,7 @@
                 <v-text-field
                   :value="endTime"
                   :rules="rules"
-                  :error-messages="timeAllowed"
+                  :error-messages="validateEndHourAllowed"
                   outlined
                   label="Hora de salida"
                   append-icon="mdi-timer-outline"
@@ -106,9 +120,21 @@
                 v-model="endTime"
                 format="24hr"
                 scrollable
+                :min="getMinEndHour"
                 :allowed-minutes="allowedMinutes"
-                @click:minute="$refs.menuEndTime.save(endTime)"
-              ></v-time-picker>
+                :allowed-hours="allowedEndHours"
+              >
+                <v-btn text color="error" @click="menuEndTime = false"
+                  >Cancelar</v-btn
+                >
+                <v-spacer></v-spacer>
+                <v-btn
+                  outlined
+                  color="success"
+                  @click="$refs.menuEndTime.save(endTime)"
+                  >Guardar</v-btn
+                >
+              </v-time-picker>
             </v-menu>
           </div>
 
@@ -196,7 +222,7 @@
 
                 <v-spacer></v-spacer>
 
-                <v-btn color="success" depressed large @click="bookingGarage">
+                <v-btn color="success" depressed large @click="bookGarage">
                   <v-icon left>mdi-checkbox-marked</v-icon>Reservar
                 </v-btn>
               </v-card-actions>
@@ -207,14 +233,26 @@
     </v-form>
   </div>
 </template>
+
 <script>
+let arrayDatesForVuetify = []
 export default {
+  name: 'GarageAvailibity',
   props: {
     garage: {
       type: Object,
       default: () => {}
+    },
+    notAllowedDates: {
+      type: Array,
+      default: () => []
+    },
+    bookingData: {
+      type: Array,
+      default: () => []
     }
   },
+
   data() {
     return {
       date: [new Date().toISOString().substr(0, 10)],
@@ -229,15 +267,47 @@ export default {
       validForm: false
     }
   },
+
   computed: {
-    timeAllowed() {
-      const error =
-        !this.date[1] && this.totalHours <= 0 ? 'Valor mínimo 1 hora' : ''
-      return error
+    getMinStartHour() {
+      const horas =
+        this.date[0] === new Date().toISOString().substr(0, 10)
+          ? new Date().getHours() + 1
+          : 0
+      return `${horas}:00`
     },
+
+    getMinEndHour() {
+      return !this.date[1] ||
+        this.date[1] === new Date().toISOString().substr(0, 10)
+        ? this.getMinStartHour
+        : '0:00'
+    },
+
+    validateStartHourAllowed() {
+      const startTimeHourNumber = parseInt(this.startTime.substr(0, 2))
+      const minHourNumber = parseInt(this.getMinStartHour.substr(0, 2))
+      return !this.allowedStartHours(startTimeHourNumber) ||
+        startTimeHourNumber < minHourNumber
+        ? 'Hora no disponible'
+        : ''
+    },
+
+    validateEndHourAllowed() {
+      const endTimeHourNumber = parseInt(this.endTime.substr(0, 2))
+      const minHourNumber = parseInt(this.getMinEndHour.substr(0, 2))
+      return !this.allowedEndHours(endTimeHourNumber) ||
+        endTimeHourNumber < minHourNumber
+        ? 'Hora no disponible'
+        : this.totalHours <= 0
+        ? 'Valor mínimo 1 hora'
+        : ''
+    },
+
     dateFormatted() {
       return this.getDateFormatted()
     },
+
     totalHours() {
       const firstDay = parseInt(this.date[0].substr(7, 8))
       const secondDay = this.date[1]
@@ -249,21 +319,63 @@ export default {
         this.endTime === null ? 0 : parseInt(this.endTime.substr(0, 2))
       return Math.abs(secondDay - firstDay) * 24 - startHour + endHour
     },
+
     totalPrice() {
       return this.garage.unitPrice * this.totalHours
     }
   },
+
+  created() {
+    arrayDatesForVuetify = this.notAllowedDates
+  },
+
   methods: {
     getDateFormatted() {
       this.date.sort()
       return this.date.join('   |   ')
     },
-    allowedMinutes: (min) => min % 5 === 0,
+
+    allowedMinutes(min) {
+      return min % 5 === 0
+    },
+
+    allowedStartHours(hour) {
+      const indexStart = this.bookingData.findIndex(
+        (val) => val.startDate === this.date[0]
+      )
+      const indexEnd = this.bookingData.findIndex(
+        (val) => val.endDate === this.date[0]
+      )
+      if (indexStart > -1) return hour < this.bookingData[indexStart].startTime
+      else if (indexEnd > -1) return hour > this.bookingData[indexEnd].endTime
+      else return true
+    },
+
+    allowedEndHours(hour) {
+      const indexEnd = this.bookingData.findIndex(
+        (val) => val.endDate === this.date[0] || val.endDate === this.date[1]
+      )
+      const indexStart = this.bookingData.findIndex(
+        (val) =>
+          val.startDate === this.date[1] ||
+          (val.startDate === this.date[0] && !this.date[1])
+      )
+      if (indexEnd > -1) return hour > this.bookingData[indexEnd].endTime
+      else if (indexStart > -1)
+        return hour < this.bookingData[indexStart].startTime
+      else return true
+    },
+
+    allowedDates(date) {
+      return !arrayDatesForVuetify.includes(date)
+    },
+
     checkBookingGarage() {
       if (!this.$refs.form.validate()) return
       this.confirmationMessage = true
     },
-    async bookingGarage() {
+
+    async bookGarage() {
       if (!this.$refs.form.validate()) return
       if (!this.date[1]) this.date[1] = this.date[0]
       await this.$axios.post(`${process.env.apiUrl}/bookingData`, {
