@@ -264,7 +264,8 @@ export default {
       menuEndTime: false,
       confirmationMessage: false,
       showPrice: false,
-      validForm: false
+      validForm: false,
+      checkingDates: []
     }
   },
 
@@ -319,11 +320,19 @@ export default {
         ]
         startDate.setDate(startDate.getDate() + 1)
       }
-      const intersection = datesSelected.filter((element) =>
+
+      const datesNotAllowed = datesSelected.filter((element) =>
         this.notAllowedDates.includes(element)
       )
-      return intersection.length > 0
+
+      const datesHoursNotAllowed = datesSelected.filter((element) =>
+        this.checkingDates.includes(element)
+      )
+
+      return datesNotAllowed.length > 0
         ? 'Hay fechas seleccionadas no disponibles'
+        : datesHoursNotAllowed.length > 0
+        ? 'Hay horas no disponibles en tu rango elegido'
         : ''
     },
 
@@ -350,6 +359,14 @@ export default {
 
   created() {
     arrayDatesForVuetify = this.notAllowedDates
+    this.bookingData.forEach(
+      (item) =>
+        (this.checkingDates = [
+          ...this.checkingDates,
+          item.startDate,
+          item.endDate
+        ])
+    )
   },
 
   methods: {
