@@ -61,6 +61,7 @@
 
       <template v-slot:footer="props">
         <pagination
+          v-if="props.pagination.pageCount > 1"
           :length="props.pagination.pageCount"
           class="ma-1"
           @page="getNumberPage"
@@ -97,7 +98,7 @@ export default {
         { text: 'Precio', value: 'unitPrice' },
         { text: 'Ubicación', value: 'location' }
       ],
-      itemsPerPage: 2,
+      itemsPerPage: 9,
       page: 1
     }
   },
