@@ -3,9 +3,10 @@
     <v-form ref="form" v-model="validForm">
       <v-card outlined min-width="600">
         <v-card-title>Consultar disponibilidad</v-card-title>
+        {{ bookingData }}
+        MIN START HOUR {{ getMinStartHour }} MIN END HOUR {{ getMinEndHour }}
         <v-card-text>
           <p>Selecciona el día o días para reservar</p>
-
           <v-menu
             ref="menuDate"
             v-model="menuDate"
@@ -362,32 +363,45 @@ export default {
     },
 
     allowedStartHours(hour) {
-      const indexStart = this.bookingData.findIndex(
-        (val) => val.startDate === this.date[0]
+      const indexDaySelected = this.bookingData.findIndex(
+        (val) => val.startDate === this.date[0] || val.endDate === this.date[0]
       )
-      const indexEnd = this.bookingData.findIndex(
-        (val) => val.endDate === this.date[0]
-      )
-      if (indexStart > -1) return hour < this.bookingData[indexStart].startTime
-      else if (indexEnd > -1) return hour > this.bookingData[indexEnd].endTime
-      else return true
+      if (indexDaySelected < 0) return true
+      return this.getAllowedHour(indexDaySelected, hour, this.date[0])
     },
 
     allowedEndHours(hour) {
-      const indexEnd = this.bookingData.findIndex(
-        (val) =>
-          (val.endDate === this.date[0] && !this.date[1]) ||
-          val.endDate === this.date[1]
+      const endDaySelected = !this.date[1] ? this.date[0] : this.date[1]
+      const indexEndDaySelected = this.bookingData.findIndex(
+        (element) =>
+          element.startDate === endDaySelected ||
+          element.endDate === endDaySelected
       )
-      const indexStart = this.bookingData.findIndex(
-        (val) =>
-          val.startDate === this.date[1] ||
-          (val.startDate === this.date[0] && !this.date[1])
-      )
-      if (indexEnd > -1) return hour > this.bookingData[indexEnd].endTime
-      else if (indexStart > -1)
-        return hour < this.bookingData[indexStart].startTime
-      else return true
+      if (indexEndDaySelected < 0) return true
+      return this.getAllowedHour(indexEndDaySelected, hour, endDaySelected)
+    },
+
+    getAllowedHour(index, hour, daySelected) {
+      const endDate = this.bookingData[index].endDate
+      const endHour = this.bookingData[index].endTime
+      const startDate = this.bookingData[index].startDate
+      const startHour = this.bookingData[index].startTime
+      if (endDate === startDate)
+        return !this.getHoursBetween(startHour, endHour).includes(hour)
+      else {
+        return endDate === daySelected
+          ? !this.getHoursBetween(0, endHour).includes(hour)
+          : !this.getHoursBetween(startHour, 24).includes(hour)
+      }
+    },
+
+    getHoursBetween(startNum, endNum) {
+      let arrayHours = []
+      while (startNum <= endNum) {
+        arrayHours = [...arrayHours, startNum]
+        startNum += 1
+      }
+      return arrayHours
     },
 
     allowedDates(date) {
