@@ -5,6 +5,8 @@
         <v-card-title>Consultar disponibilidad</v-card-title>
         {{ notAllowedDates }}
         {{ bookingData }}
+
+        MIN HOUR START {{ getMinStartHour }} MIN HOUR END {{ getMinEndHour }}
         <v-card-text>
           <p>Selecciona el día o días para reservar</p>
 
@@ -287,8 +289,9 @@ export default {
     validateStartHourAllowed() {
       const startTimeHourNumber = parseInt(this.startTime.substr(0, 2))
       const minHourNumber = parseInt(this.getMinStartHour.substr(0, 2))
-      return !this.allowedStartHours(startTimeHourNumber) ||
-        startTimeHourNumber < minHourNumber
+      return (!this.allowedStartHours(startTimeHourNumber) ||
+        startTimeHourNumber < minHourNumber) &&
+        this.startTime !== ''
         ? 'Hora no disponible'
         : ''
     },
@@ -296,13 +299,18 @@ export default {
     validateEndHourAllowed() {
       const endTimeHourNumber = parseInt(this.endTime.substr(0, 2))
       const minHourNumber = parseInt(this.getMinEndHour.substr(0, 2))
-      return !this.allowedEndHours(endTimeHourNumber) ||
-        endTimeHourNumber < minHourNumber
+      return (!this.allowedEndHours(endTimeHourNumber) ||
+        endTimeHourNumber < minHourNumber) &&
+        this.endTime !== ''
         ? 'Hora no disponible'
         : this.totalHours <= 0
         ? 'Valor mínimo 1 hora'
         : ''
     },
+
+    // validateDates() {
+
+    // },
 
     dateFormatted() {
       return this.getDateFormatted()
@@ -353,7 +361,9 @@ export default {
 
     allowedEndHours(hour) {
       const indexEnd = this.bookingData.findIndex(
-        (val) => val.endDate === this.date[0] || val.endDate === this.date[1]
+        (val) =>
+          (val.endDate === this.date[0] && !this.date[1]) ||
+          val.endDate === this.date[1]
       )
       const indexStart = this.bookingData.findIndex(
         (val) =>
