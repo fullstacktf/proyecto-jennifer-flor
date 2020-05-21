@@ -23,6 +23,7 @@
               <v-text-field
                 :value="dateFormatted"
                 :rules="rules"
+                :error-messages="validateDates"
                 outlined
                 label="Entrada | Salida"
                 append-icon="mdi-calendar"
@@ -308,9 +309,26 @@ export default {
         : ''
     },
 
-    // validateDates() {
-
-    // },
+    validateDates() {
+      if (!this.date[1]) return
+      let datesSelected = []
+      const startDate = new Date(this.date[0])
+      const endDate = new Date(this.date[1])
+      // eslint-disable-next-line no-unmodified-loop-condition
+      while (startDate <= endDate) {
+        datesSelected = [
+          ...datesSelected,
+          new Date(startDate).toISOString().substr(0, 10)
+        ]
+        startDate.setDate(startDate.getDate() + 1)
+      }
+      const intersection = datesSelected.filter((element) =>
+        this.notAllowedDates.includes(element)
+      )
+      return intersection.length > 0
+        ? 'Hay fechas seleccionadas no disponibles'
+        : ''
+    },
 
     dateFormatted() {
       return this.getDateFormatted()
