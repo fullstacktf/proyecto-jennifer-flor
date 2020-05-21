@@ -3,10 +3,6 @@
     <v-form ref="form" v-model="validForm">
       <v-card outlined min-width="600">
         <v-card-title>Consultar disponibilidad</v-card-title>
-        {{ notAllowedDates }}
-        {{ bookingData }}
-
-        MIN HOUR START {{ getMinStartHour }} MIN HOUR END {{ getMinEndHour }}
         <v-card-text>
           <p>Selecciona el día o días para reservar</p>
 

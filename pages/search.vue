@@ -71,7 +71,6 @@
 </template>
 
 <script>
-import garagesData from '@/assets/garages.json'
 import GarageCard from '@/components/GarageCard.vue'
 import Pagination from '@/components/Pagination.vue'
 import SearchLocationBar from '@/components/SearchLocationBar'
@@ -83,9 +82,13 @@ export default {
     GarageCard,
     Pagination
   },
+  asyncData({ $axios }) {
+    return $axios.get(`${process.env.apiUrl}/garages`).then((response) => {
+      return { garagesData: response.data }
+    })
+  },
   data() {
     return {
-      garagesData,
       search: '',
       sortBy: 'rating',
       sortDesc: true,
