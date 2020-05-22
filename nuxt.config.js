@@ -5,7 +5,8 @@ export default {
   mode: 'spa',
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-    apiUrl: process.env.API_URL
+    apiUrl: process.env.API_URL,
+    stripeKey: process.env.PUBLISHABLE_KEY
   },
   /*
    ** Headers of the page
@@ -37,7 +38,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/gotrue'],
+  plugins: ['~/plugins/gotrue', '~/plugins/stripe'],
   /*
    ** Nuxt.js dev-modules
    */

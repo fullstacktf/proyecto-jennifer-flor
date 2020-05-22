@@ -39,7 +39,7 @@ const attemptConfirmation = ({ commit, dispatch }, credentials) => {
         credentials.token = null
         dispatch('attemptLogin', credentials)
         console.log(
-          'Confirmation email sent',
+          'Email confirmado',
           JSON.stringify({
             response
           })

@@ -65,7 +65,6 @@ export default {
       authImg
     }
   },
-  computed: {},
   methods: {
     ...mapActions('modules/auth', ['attemptLogin', 'attemptSignUp']),
     signUp() {

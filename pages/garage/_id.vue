@@ -285,13 +285,29 @@
         </v-list-item>
       </v-list>
     </v-card>
+    <!-- <stripe-checkout
+      ref="checkoutRef"
+      :pk="publishableKey"
+      :items="items"
+      :success-url="successUrl"
+      :cancel-url="cancelUrl"
+    >
+      <template slot="checkout-button">
+        <button @click="checkout">Reservar</button>
+      </template>
+    </stripe-checkout> -->
   </div>
 </template>
 
 <script>
 // import garagesData from '@/assets/garages.json'
+// import { StripeCheckout } from 'vue-stripe-checkout'
+
 export default {
   name: 'Garage',
+  components: {
+    // StripeCheckout
+  },
   asyncData({ $axios, params, error }) {
     return $axios
       .get(`${process.env.apiUrl}/garages/${params.id}`)
@@ -315,7 +331,18 @@ export default {
       menuEndTime: false,
       confirmationMessage: false,
       showPrice: false,
-      validForm: false
+      validForm: false,
+      // stripe
+      loading: false,
+      publishableKey: process.env.stripeKey,
+      items: [
+        {
+          sku: 'sku_HIPlUP5eWcOHQc',
+          quantity: 1
+        }
+      ],
+      successUrl: 'https://app.garageme.es/',
+      cancelUrl: 'https://www.netlify.com/'
     }
   },
   computed: {
@@ -374,6 +401,9 @@ export default {
       this.confirmationMessage = false
       this.$refs.form.reset()
       this.$router.push('/rent')
+    },
+    checkout() {
+      this.$refs.checkoutRef.redirectToCheckout()
     }
   }
 }
