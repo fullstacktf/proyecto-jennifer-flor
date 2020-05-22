@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1 class="mt-4 display-2 text-center">¡Hola, {{ userData.name }}!</h1>
-
     <v-card
       v-if="nextBookingGarage !== false"
       class="my-10 mx-auto"
