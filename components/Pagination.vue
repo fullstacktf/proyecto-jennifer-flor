@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-pagination v-model="page" :length="pageLength"></v-pagination>
+    <v-pagination
+      v-model="page"
+      :length="length"
+      :total-visible="7"
+      circle
+      @input="click"
+    ></v-pagination>
   </div>
 </template>
 
@@ -8,9 +14,18 @@
 export default {
   name: 'Pagination',
   props: {
-    pageLength: {
-      type: String,
-      default: '1'
+    length: {
+      type: Number,
+      default: 1
+    },
+    page: {
+      type: Number,
+      default: 1
+    }
+  },
+  methods: {
+    click() {
+      this.$emit('page', this.page)
     }
   }
 }

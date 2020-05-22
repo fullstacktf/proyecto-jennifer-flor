@@ -113,7 +113,7 @@
     <h2 class="text-center mt-8 mb-6 display-1 font-weight-bold">
       Historial de aparcamientos reservados
     </h2>
-    <v-card flat class="d-flex flex-wrap justify-center">
+    <v-card color="transparent" flat class="d-flex flex-wrap justify-center">
       <garage-card
         v-for="(garage, index) in bookingHistory"
         :key="index"

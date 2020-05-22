@@ -5,7 +5,7 @@
         <v-badge
           :content="notificationNumber"
           :value="notificationNumber"
-          color="secondary"
+          color="primary"
           overlap
         >
           <v-icon>mdi-bell</v-icon>

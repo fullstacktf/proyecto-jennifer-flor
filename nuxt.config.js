@@ -56,11 +56,7 @@ export default {
     [
       '@nuxtjs/google-analytics',
       {
-        id: 'UA-166091474-1',
-        debug: {
-          enabled: true,
-          sendHitTask: true
-        }
+        id: 'UA-166091474-1'
       },
       ['@nuxtjs/dotenv']
     ],
@@ -77,6 +73,7 @@ export default {
    ** https://github.com/nuxt-community/vuetify-module
    */
   vuetify: {
+    treeShake: true,
     customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: false,

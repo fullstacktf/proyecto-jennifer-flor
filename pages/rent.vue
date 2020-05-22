@@ -9,12 +9,21 @@
         v-for="(bookingGarage, index) in bookingData"
         :key="index"
         class="mx-2 mt-2"
+        max-width="380"
       >
-        <v-list dark color="accent">
+        <v-list light color="secondary" class="pa-2">
+          <v-btn
+            depressed
+            block
+            class="text-right"
+            nuxt
+            :to="`/garage/${getGarageData(bookingGarage.garageId).id}`"
+            >Ver ficha <v-icon right small>mdi-link-variant</v-icon></v-btn
+          >
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="text-uppercase title"
-                >Inicio</v-list-item-title
+                >Entrada</v-list-item-title
               >
               <v-list-item-subtitle class="subtitle-1">
                 {{ bookingGarage.startDate }}
@@ -25,7 +34,7 @@
             </v-list-item-content>
             <v-list-item-content>
               <v-list-item-title class="text-uppercase title"
-                >Fin</v-list-item-title
+                >Salida</v-list-item-title
               >
               <v-list-item-subtitle class="subtitle-1">
                 {{ bookingGarage.endDate }}
@@ -36,7 +45,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-        <v-divider></v-divider>
+
         <v-list two-line subheader>
           <v-subheader class="title">Datos del aparcamiento</v-subheader>
           <v-list-item>
@@ -93,7 +102,9 @@
             >Anular reserva</v-btn
           >
           <v-spacer></v-spacer>
-          <v-btn depressed color="success">Check-in</v-btn>
+          <v-btn depressed color="success"
+            ><v-icon right small>mdi-cash-multiple</v-icon> Check-in</v-btn
+          >
         </v-card-actions>
       </v-card>
     </div>
@@ -114,8 +125,6 @@
 </template>
 
 <script>
-// import userData from '@/assets/userdata.json'
-// import garagesData from '@/assets/garages.json'
 export default {
   asyncData({ $axios, params }) {
     return Promise.all([
@@ -130,17 +139,13 @@ export default {
       return { bookingData: resBooking.data, garagesData: resGarages.data }
     })
   },
-  data() {
-    return {
-      // userData,
-      // garagesData
-    }
-  },
+
   computed: {
     isStarted() {
       return false
     }
   },
+
   methods: {
     getGarageData(id) {
       const garage = this.garagesData.filter((el) => {
@@ -153,6 +158,7 @@ export default {
       this.$router.go()
     }
   },
+
   head() {
     return {
       title: 'Reservas'

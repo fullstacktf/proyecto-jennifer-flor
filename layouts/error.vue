@@ -42,4 +42,7 @@ export default {
 h1 {
   font-size: 20px;
 }
+.theme--light.v-application {
+  background: #f5f5f5;
+}
 </style>

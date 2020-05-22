@@ -1,5 +1,5 @@
 <template>
-  <div light>
+  <div>
     <h1 class="mt-4 display-2 text-center">¡Hola, {{ userData.name }}!</h1>
     <v-card
       v-if="nextBookingGarage !== false"
@@ -12,8 +12,10 @@
       <v-card-subtitle
         >Recuerda hacer Check-In al llegar a tu aparcamiento</v-card-subtitle
       >
+
       <v-divider></v-divider>
-      <v-list color="grey lighten-4">
+
+      <v-list class="info-box">
         <v-list-item>
           <v-img
             :src="parkingimg"
@@ -47,13 +49,16 @@
           </div>
         </v-list-item>
       </v-list>
+
       <v-divider></v-divider>
+
       <v-card-actions>
         <v-btn color="success" text nuxt to="/rent">Ver mis reservas</v-btn>
         <v-spacer></v-spacer>
         <v-btn color="success" depressed>Check-In</v-btn>
       </v-card-actions>
     </v-card>
+
     <v-card
       max-width="400"
       flat
@@ -70,10 +75,12 @@
         <v-icon>mdi-map-marker</v-icon>{{ actualUserLocation }}
       </v-card-subtitle>
     </v-card>
+
     <h2 class="text-center mt-8 mb-6 display-1 font-weight-bold">
       Aparcamientos cerca de ti
     </h2>
-    <v-card flat class="d-flex flex-wrap justify-center">
+
+    <v-card color="transparent" flat class="d-flex flex-wrap justify-center">
       <garage-card
         v-for="(garage, index) in garagesNearby"
         :key="index"
@@ -81,6 +88,7 @@
         class="ma-1"
       ></garage-card>
     </v-card>
+
     <v-alert
       v-if="garagesNearby.length === 0"
       max-width="600"
@@ -163,3 +171,8 @@ export default {
   }
 }
 </script>
+<style>
+.theme--light.v-list.info-box {
+  background-color: #f5f5f5;
+}
+</style>
