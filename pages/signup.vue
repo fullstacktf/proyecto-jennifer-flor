@@ -19,16 +19,20 @@
             height="500"
           >
             <v-card-title class="align-self-center"
-              >Inicia sesión en GarageMe</v-card-title
+              >Crea tu cuenta en GarageMe</v-card-title
             >
             <v-card-text>
               <v-form class="d-flex flex-column px-10">
                 <v-text-field
-                  v-model="loginCreds.email"
+                  v-model="signupCreds.name"
+                  label="Nombre"
+                ></v-text-field>
+                <v-text-field
+                  v-model="signupCreds.email"
                   label="Correo electrónico"
                 ></v-text-field>
                 <v-text-field
-                  v-model="loginCreds.password"
+                  v-model="signupCreds.password"
                   type="password"
                   label="Contraseña"
                 ></v-text-field>
@@ -36,12 +40,12 @@
                   outlined
                   color="primary"
                   class="align-self-center"
-                  @click="logIn"
-                  >Continuar</v-btn
+                  @click="signUp"
+                  >Registrarme</v-btn
                 >
                 <v-card-subtitle class="align-self-center mt-1">
-                  ¿No tienes una cuenta?
-                  <nuxt-link to="/signup">Crea tu cuenta</nuxt-link>.
+                  ¿Ya tienes una cuenta?
+                  <nuxt-link to="/login">Inicia sesión</nuxt-link>.
                 </v-card-subtitle>
               </v-form>
             </v-card-text>
@@ -49,7 +53,7 @@
         </v-col>
         <v-col cols="4">
           <v-card class="d-flex" :tile="true" height="500" :outlined="true">
-            <v-img :src="loginImg" aspect-ratio="1.7" cover></v-img>
+            <v-img :src="signupImg" aspect-ratio="1.7" cover></v-img>
           </v-card>
         </v-col>
       </v-row>
@@ -59,40 +63,39 @@
 
 <script>
 import { mapActions } from 'vuex'
-import loginImg from '../assets/login.jpg'
+import signupImg from '../assets/signup.jpg'
 import LogoIcon from '@/components/LogoIcon'
 
 export default {
-  name: 'LogIn',
+  name: 'SignUp',
   components: {
     LogoIcon
   },
   data() {
     return {
-      formType: 'login',
-      loginCreds: {
+      signupCreds: {
+        name: null,
         email: null,
         password: null
       },
-      loginImg
+      signupImg
     }
   },
   methods: {
-    ...mapActions('modules/auth', ['attemptLogin']),
-    logIn() {
-      const token = window.location.hash.replace('#confirmation_token=', '')
-      this.attemptLogin({ token, ...this.loginCreds })
+    ...mapActions('modules/auth', ['attemptSignUp']),
+    signUp() {
+      this.attemptSignUp(this.signupCreds)
         .then(() => {
-          window.location.href = '/'
+          console.log(
+            'You have successfully signed up. Check your email to confirm your account.'
+          )
         })
-        .catch((err) => {
-          console.log('Oops! Looks like something is wrong! ', err)
-        })
+        .catch((error) => console.log(error))
     }
   },
   head() {
     return {
-      title: 'Log In'
+      title: 'Sign Up'
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <v-app light>
-    <nav-bar></nav-bar>
+    <nav-bar v-if="currentUser == !null"></nav-bar>
     <v-content>
       <v-container>
         <nuxt />
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import NavBar from '@/components/NavBar'
 export default {
   components: {
@@ -21,7 +22,8 @@ export default {
   // middleware: 'authenticated',
   data() {
     return {}
-  }
+  },
+  created: { ...mapState('modules/auth', ['currentUser']) }
 }
 </script>
 <style>

@@ -38,7 +38,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/gotrue', '~/plugins/stripe'],
+  plugins: ['~/plugins/gotrue'],
   /*
    ** Nuxt.js dev-modules
    */
