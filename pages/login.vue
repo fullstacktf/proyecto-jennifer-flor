@@ -64,6 +64,7 @@ import LogoIcon from '@/components/LogoIcon'
 
 export default {
   name: 'LogIn',
+  layout: 'logout',
   components: {
     LogoIcon
   },

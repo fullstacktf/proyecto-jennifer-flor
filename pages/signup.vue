@@ -68,6 +68,7 @@ import LogoIcon from '@/components/LogoIcon'
 
 export default {
   name: 'SignUp',
+  layout: 'logout',
   components: {
     LogoIcon
   },
