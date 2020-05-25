@@ -8,10 +8,10 @@ export const auth = new GoTrue({
 
 const state = () => {
   return {
-    currentUser: getSavedState('auth.currentUser'),
-    loading: false,
-    loggedIn: false,
-    token: null
+    currentUser: getSavedState('auth.currentUser')
+    // loading: false,
+    // loggedIn: false,
+    // token: null
   }
 }
 

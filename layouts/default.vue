@@ -6,6 +6,7 @@
         <nuxt />
       </v-container>
     </v-content>
+    <Footer></Footer>
     <!-- <v-footer app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer> -->
@@ -14,9 +15,12 @@
 
 <script>
 import NavBar from '@/components/NavBar'
+import Footer from '@/components/Footer'
+
 export default {
   components: {
-    NavBar
+    NavBar,
+    Footer
   },
   // middleware: 'authenticated',
   data() {
@@ -27,5 +31,8 @@ export default {
 <style>
 .theme--light.v-application {
   background: #f5f5f5;
+}
+a {
+  text-decoration: none;
 }
 </style>

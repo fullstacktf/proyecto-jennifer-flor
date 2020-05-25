@@ -19,6 +19,13 @@
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" app right>
       <v-list>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title v-if="currentUser !== null">{{
+              currentUser.email
+            }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item
           v-for="item in menuItems"
           :key="item.title"
@@ -53,7 +60,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import NotificationMenu from '@/components/NotificationMenu'
 import LogoIcon from '@/components/LogoIcon'
 
@@ -74,6 +81,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('modules/auth', ['currentUser']),
     isVisible() {
       // const user = this.$auth.currentUser()
       // if (!user) {
@@ -93,6 +101,8 @@ export default {
   methods: {
     ...mapActions('modules/auth', ['attemptLogout']),
     logOut() {
+      // event.preventDefault()
+      // console.log(JSON.stringify(currentUser))
       this.attemptLogout()
         .then(() => {
           window.location.href = 'https://garageme.es/'

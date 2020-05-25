@@ -1,15 +1,15 @@
 import { auth } from './state'
 
-const init = ({ dispatch }) => {
-  dispatch('validate')
-}
+// const init = ({ dispatch }) => {
+//   dispatch('validate')
+// }
 
-const validate = ({ commit, state }) => {
-  if (!state.currentUser) return Promise.resolve(null)
-  const user = auth.currentUser()
-  commit('SET_CURRENT_USER', user)
-  return user
-}
+// const validate = ({ commit, state }) => {
+//   if (!state.currentUser) return Promise.resolve(null)
+//   const user = auth.currentUser()
+//   commit('SET_CURRENT_USER', user)
+//   return user
+// }
 
 const attemptLogin = ({ commit, dispatch }, credentials) => {
   return new Promise((resolve, reject) => {
@@ -59,7 +59,7 @@ const attemptSignUp = ({ commit }, credentials) => {
       .signup(credentials.email, credentials.password)
       .then((response) => {
         console.log('Confirmation email sent', response)
-        commit('TOGGLE_LOAD')
+        // commit('TOGGLE_LOAD')
         resolve(response)
       })
       .catch((error) => {
@@ -70,25 +70,26 @@ const attemptSignUp = ({ commit }, credentials) => {
 }
 
 const attemptLogout = ({ commit }) => {
-  return new Promise((resolve, reject) => {
-    const user = auth.currentUser()
-    user
-      .logout()
-      .then((response) => {
-        console.log(response)
-        resolve(response)
-        commit('SET_CURRENT_USER', null)
-      })
-      .catch((error) => {
-        reject(error)
-        console.log('Could not log out', error)
-      })
-  })
+  commit('SET_CURRENT_USER', null)
+  // return new Promise((resolve, reject) => {
+  //   const user = auth.currentUser()
+  //   user
+  //     .logout()
+  //     .then((response) => {
+  //       console.log(response)
+  //       resolve(response)
+  //       commit('SET_CURRENT_USER', null)
+  //     })
+  //     .catch((error) => {
+  //       reject(error)
+  //       console.log('Could not log out', error)
+  //     })
+  // })
 }
 
 export default {
-  init,
-  validate,
+  // init,
+  // validate,
   attemptLogin,
   attemptConfirmation,
   attemptSignUp,
