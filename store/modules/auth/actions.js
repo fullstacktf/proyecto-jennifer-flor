@@ -53,12 +53,22 @@ const attemptConfirmation = ({ commit, dispatch }, credentials) => {
   })
 }
 
-const attemptSignUp = ({ commit }, credentials) => {
+const userData = (credentials) => {
+  fetch('/.netlify/functions/identity-signup', {
+    body: JSON.stringify(credentials)
+  })
+    .then((response) => response.json())
+    .then(console.log)
+    .catch((error) => console.log(error))
+}
+
+const attemptSignUp = ({ dispatch }, credentials) => {
   return new Promise((resolve, reject) => {
     auth
       .signup(credentials.email, credentials.password)
       .then((response) => {
         console.log('Confirmation email sent', response)
+        dispatch('userData', credentials)
         // commit('TOGGLE_LOAD')
         resolve(response)
       })
@@ -93,5 +103,6 @@ export default {
   attemptLogin,
   attemptConfirmation,
   attemptSignUp,
-  attemptLogout
+  attemptLogout,
+  userData
 }
