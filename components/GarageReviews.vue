@@ -19,19 +19,51 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="font-weight-bold"
-              >Nombre</v-list-item-title
+              >Mario</v-list-item-title
             >
-            <v-list-item-title>Fecha</v-list-item-title>
+            <v-list-item-title>2020-03-23</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Super guay</v-list-item-title>
-            <v-list-item-subtitle>Todo maravilloso</v-list-item-subtitle>
+            <v-list-item-title>Muy bien</v-list-item-title>
+            <v-list-item-subtitle
+              >Buen trato con el dueño. Ningún problema.</v-list-item-subtitle
+            >
           </v-list-item-content>
           <v-rating
-            :value="garage.rating"
+            value="5"
+            color="amber"
+            dense
+            size="14"
+            half-increments
+            readonly
+            half-icon="mdi-star-half-full"
+            class="d-inline"
+          ></v-rating>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-img
+              src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
+            ></v-img>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title class="font-weight-bold">Ray</v-list-item-title>
+            <v-list-item-title>2020-04-05</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>Bien...</v-list-item-title>
+            <v-list-item-subtitle
+              >Dueños simpáticos aunque habia mucho polvo</v-list-item-subtitle
+            >
+          </v-list-item-content>
+          <v-rating
+            value="4"
             color="amber"
             dense
             size="14"
