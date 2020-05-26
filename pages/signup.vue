@@ -11,6 +11,17 @@
           </h2>
         </v-col>
       </v-row>
+      <v-row justify="center">
+        <v-col cols="8">
+          <v-alert v-if="response === 'success'" dense outlined type="success">
+            Se ha registrado correctamente. Le hemos enviado un correo para que
+            confirme su cuenta.
+          </v-alert>
+          <v-alert v-if="response === 'error'" dense outlined type="error">
+            Ha ocurrido un error. Por favor, inténtelo otra vez.
+          </v-alert>
+        </v-col>
+      </v-row>
       <v-row no-gutters justify="center">
         <v-col cols="5">
           <v-card
@@ -22,19 +33,29 @@
               >Crea tu cuenta en GarageMe</v-card-title
             >
             <v-card-text>
-              <v-form class="d-flex flex-column px-10">
+              <v-form
+                ref="form"
+                v-model="valid"
+                class="d-flex flex-column px-10"
+              >
                 <v-text-field
                   v-model="signupCreds.name"
+                  :rules="nameRules"
                   label="Nombre"
+                  required
                 ></v-text-field>
                 <v-text-field
                   v-model="signupCreds.email"
+                  :rules="emailRules"
                   label="Correo electrónico"
+                  required
                 ></v-text-field>
                 <v-text-field
                   v-model="signupCreds.password"
+                  :rules="passwordRules"
                   type="password"
                   label="Contraseña"
+                  required
                 ></v-text-field>
                 <v-btn
                   outlined
@@ -74,24 +95,39 @@ export default {
   },
   data() {
     return {
+      valid: true,
+      nameRules: [(v) => !!v || 'Debe indicar su nombre.'],
+      emailRules: [
+        (v) => !!v || 'Debe indicar su correo electrónico.',
+        (v) =>
+          /.+@.+\..+/.test(v) ||
+          'El formato de correo electrónico no es correcto.'
+      ],
+      passwordRules: [
+        (v) => !!v || 'Debe indicar una contraseña.',
+        (v) =>
+          /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/.test(v) ||
+          'La contraseña debe tener entre 8 y 16 caracteres, e incluir al menos una mayúscula, una minúscula, un número y un caracter especial.'
+      ],
       signupCreds: {
         name: null,
         email: null,
         password: null
       },
+      response: null,
       signupImg
     }
   },
   methods: {
     ...mapActions('modules/auth', ['attemptSignUp']),
     signUp() {
-      this.attemptSignUp(this.signupCreds)
-        .then(() => {
-          console.log(
-            'You have successfully signed up. Check your email to confirm your account.'
-          )
-        })
-        .catch((error) => console.log(error))
+      if (this.$refs.form.validate()) {
+        this.attemptSignUp(this.signupCreds)
+          .then(() => {
+            this.response = 'success'
+          })
+          .catch(() => (this.response = 'error'))
+      }
     }
   },
   head() {

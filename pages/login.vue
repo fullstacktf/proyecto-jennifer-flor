@@ -11,6 +11,13 @@
           </h2>
         </v-col>
       </v-row>
+      <v-row justify="center">
+        <v-col cols="8">
+          <v-alert v-if="response === 'error'" dense outlined type="error">
+            Ha ocurrido un error. Por favor, inténtelo otra vez.
+          </v-alert>
+        </v-col>
+      </v-row>
       <v-row no-gutters justify="center">
         <v-col cols="5">
           <v-card
@@ -22,15 +29,23 @@
               >Inicia sesión en GarageMe</v-card-title
             >
             <v-card-text>
-              <v-form class="d-flex flex-column px-10">
+              <v-form
+                ref="form"
+                v-model="valid"
+                class="d-flex flex-column px-10"
+              >
                 <v-text-field
                   v-model="loginCreds.email"
+                  :rules="emailRules"
                   label="Correo electrónico"
+                  required
                 ></v-text-field>
                 <v-text-field
                   v-model="loginCreds.password"
+                  :rules="passwordRules"
                   type="password"
                   label="Contraseña"
+                  required
                 ></v-text-field>
                 <v-btn
                   outlined
@@ -70,25 +85,35 @@ export default {
   },
   data() {
     return {
-      formType: 'login',
+      valid: true,
+      emailRules: [
+        (v) => !!v || 'Debe indicar su correo electrónico.',
+        (v) =>
+          /.+@.+\..+/.test(v) ||
+          'El formato de correo electrónico no es correcto.'
+      ],
+      passwordRules: [(v) => !!v || 'Debe indicar una contraseña.'],
       loginCreds: {
         email: null,
         password: null
       },
+      response: null,
       loginImg
     }
   },
   methods: {
     ...mapActions('modules/auth', ['attemptLogin']),
     logIn() {
-      const token = window.location.hash.replace('#confirmation_token=', '')
-      this.attemptLogin({ token, ...this.loginCreds })
-        .then(() => {
-          window.location.href = '/'
-        })
-        .catch((err) => {
-          console.log('Oops! Looks like something is wrong! ', err)
-        })
+      if (this.$refs.form.validate()) {
+        const token = window.location.hash.replace('#confirmation_token=', '')
+        this.attemptLogin({ token, ...this.loginCreds })
+          .then(() => {
+            window.location.href = '/'
+          })
+          .catch(() => {
+            this.response = 'error'
+          })
+      }
     }
   },
   head() {

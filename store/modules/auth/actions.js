@@ -21,6 +21,7 @@ const attemptLogin = ({ commit, dispatch }, credentials) => {
           commit('SET_CURRENT_USER', response)
         })
         .catch((error) => {
+          // No se ha podido iniciar sesión.
           reject(error.json)
         })
     })
@@ -38,43 +39,27 @@ const attemptConfirmation = ({ commit, dispatch }, credentials) => {
       .then((response) => {
         credentials.token = null
         dispatch('attemptLogin', credentials)
-        console.log(
-          'Email confirmado',
-          JSON.stringify({
-            response
-          })
-        )
+        // Se ha confirmado el correo correctamente.
         resolve(response)
       })
       .catch((error) => {
+        // Error al confirmar el correo.
         reject(error)
-        console.log(error)
       })
   })
 }
 
-const userData = (credentials) => {
-  fetch('/.netlify/functions/identity-signup', {
-    body: JSON.stringify(credentials)
-  })
-    .then((response) => response.json())
-    .then(console.log)
-    .catch((error) => console.log(error))
-}
-
-const attemptSignUp = ({ dispatch }, credentials) => {
+const attemptSignUp = ({ commit }, credentials) => {
   return new Promise((resolve, reject) => {
     auth
       .signup(credentials.email, credentials.password)
       .then((response) => {
-        console.log('Confirmation email sent', response)
-        dispatch('userData', credentials)
-        // commit('TOGGLE_LOAD')
+        // Correo de confirmación enviado.
         resolve(response)
       })
       .catch((error) => {
+        // No se ha podido registrar.
         reject(error)
-        console.log("It's an error", error)
       })
   })
 }
@@ -103,6 +88,5 @@ export default {
   attemptLogin,
   attemptConfirmation,
   attemptSignUp,
-  attemptLogout,
-  userData
+  attemptLogout
 }
