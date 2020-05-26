@@ -18,14 +18,23 @@
       ></v-app-bar-nav-icon>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" app right>
-      <v-list>
-        <v-list-item>
+      <template v-slot:prepend>
+        <v-list-item two-line>
+          <v-list-item-avatar color="primary">
+            <span class="white--text headline">{{
+              userMetadata.slice(0, 1)
+            }}</span>
+          </v-list-item-avatar>
+
           <v-list-item-content>
-            <v-list-item-title v-if="currentUser !== null">{{
-              currentUser.email
+            <v-list-item-title v-if="userMetadata !== null">{{
+              userMetadata
             }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+      </template>
+      <v-divider></v-divider>
+      <v-list>
         <v-list-item
           v-for="item in menuItems"
           :key="item.title"
@@ -81,7 +90,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('modules/auth', ['currentUser']),
+    ...mapState('modules/auth', ['userMetadata']),
     isVisible() {
       // const user = this.$auth.currentUser()
       // if (!user) {
@@ -101,8 +110,6 @@ export default {
   methods: {
     ...mapActions('modules/auth', ['attemptLogout']),
     logOut() {
-      // event.preventDefault()
-      // console.log(JSON.stringify(currentUser))
       this.attemptLogout()
         .then(() => {
           window.location.href = 'https://garageme.es/'

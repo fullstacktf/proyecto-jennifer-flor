@@ -5,7 +5,7 @@
 //   }
 // }
 export default function({ $auth, redirect, req, res, route }) {
-  if (!$auth.currentUser()) {
+  if (window.localStorage.getItem('auth.currentUser') === null) {
     return redirect('/login')
   }
 }

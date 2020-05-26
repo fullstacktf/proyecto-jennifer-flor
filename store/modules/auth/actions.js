@@ -56,10 +56,27 @@ const attemptSignUp = ({ commit }, credentials) => {
       .then((response) => {
         // Correo de confirmación enviado.
         resolve(response)
+        commit('SET_USER_METADATA', credentials.name)
       })
       .catch((error) => {
         // No se ha podido registrar.
         reject(error)
+      })
+  })
+}
+
+const userUpdate = (state) => {
+  return new Promise((resolve, reject) => {
+    const user = state.currentUser
+    user
+      .update({ data: { phone: '' } })
+      .then((response) => {
+        console.log(response)
+        resolve(response)
+      })
+      .catch((error) => {
+        reject(error)
+        console.log(error)
       })
   })
 }
@@ -88,5 +105,6 @@ export default {
   attemptLogin,
   attemptConfirmation,
   attemptSignUp,
-  attemptLogout
+  attemptLogout,
+  userUpdate
 }

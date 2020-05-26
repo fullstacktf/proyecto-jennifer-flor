@@ -128,6 +128,7 @@
 import userData from '../assets/userdata.json'
 import garagesData from '../assets/garages.json'
 import GarageCard from '../components/GarageCard.vue'
+
 export default {
   components: {
     GarageCard

@@ -8,7 +8,8 @@ export const auth = new GoTrue({
 
 const state = () => {
   return {
-    currentUser: getSavedState('auth.currentUser')
+    currentUser: getSavedState('auth.currentUser'),
+    userMetadata: getSavedData('userMetadata')
     // loading: false,
     // loggedIn: false,
     // token: null
@@ -16,6 +17,10 @@ const state = () => {
 }
 
 function getSavedState(key) {
+  return JSON.parse(window.localStorage.getItem(key))
+}
+
+const getSavedData = (key) => {
   return JSON.parse(window.localStorage.getItem(key))
 }
 

@@ -104,10 +104,10 @@ export default {
           'El formato de correo electrónico no es correcto.'
       ],
       passwordRules: [
-        (v) => !!v || 'Debe indicar una contraseña.',
-        (v) =>
-          /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/.test(v) ||
-          'La contraseña debe tener entre 8 y 16 caracteres, e incluir al menos una mayúscula, una minúscula, un número y un caracter especial.'
+        (v) => !!v || 'Debe indicar una contraseña.' /*,*/
+        // (v) =>
+        //   /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/.test(v) ||
+        //   'La contraseña debe tener entre 8 y 16 caracteres, e incluir al menos una mayúscula, una minúscula, un número y un caracter especial.'
       ],
       signupCreds: {
         name: null,

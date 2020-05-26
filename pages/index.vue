@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1 class="mt-4 display-2 text-center">¡Hola, {{ userData.name }}!</h1>
+    <h1 v-if="userMetadata !== null" class="mt-4 display-2 text-center">
+      ¡Hola {{ userMetadata }}!
+    </h1>
     <v-card
       v-if="nextBookingGarage !== false"
       class="my-10 mx-auto"
@@ -106,10 +108,10 @@
 </template>
 
 <script>
-// import userData from '@/assets/userdata.json'
-// import garagesData from '@/assets/garages.json'
+import { mapState } from 'vuex'
 import parkingimg from '@/assets/parking.png'
 import GarageCard from '@/components/GarageCard'
+
 export default {
   // activar autentificación
   // middleware: 'auth',
@@ -142,6 +144,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('modules/auth', ['userMetadata']),
     nextBookingGarage() {
       // userData.bookingData.sort((a, b) => {
       //   if (a.startDate > b.startDate) return 1
