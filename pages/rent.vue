@@ -98,9 +98,46 @@
             depressed
             outlined
             color="error"
-            @click="deleteBookingGarage(bookingGarage.id)"
+            @click="confirmationMessage = true"
             >Anular reserva</v-btn
           >
+
+          <v-dialog v-model="confirmationMessage" max-width="700">
+            <v-card>
+              <v-card-title class="headline"
+                >¿Seguro que quieres anular tu reserva?</v-card-title
+              >
+              <v-card-subtitle class="subtitle-1 mt-1"
+                >Si quieres borrar tu reserva escribe la palabra
+                <strong>DELETE</strong> abajo.</v-card-subtitle
+              >
+              <v-form
+                ref="deleteForm"
+                v-model="validateDeleteForm"
+                class="pa-2"
+              >
+                <v-text-field
+                  :rules="deteleRules"
+                  outlined
+                  placeholder="DELETE"
+                ></v-text-field>
+              </v-form>
+              <v-card-actions>
+                <v-btn text color="accent" @click="confirmationMessage = false"
+                  >Cancelar</v-btn
+                >
+                <v-spacer></v-spacer>
+                <v-btn
+                  v-if="validateDeleteForm"
+                  depressed
+                  color="error"
+                  @click="deleteBookingGarage(bookingGarage.id)"
+                  >Anular reserva</v-btn
+                >
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
           <v-spacer></v-spacer>
           <v-btn depressed color="success"
             ><v-icon right small>mdi-cash-multiple</v-icon> Check-in</v-btn
@@ -138,6 +175,17 @@ export default {
       })
       return { bookingData: resBooking.data, garagesData: resGarages.data }
     })
+  },
+
+  data() {
+    return {
+      deteleRules: [
+        (v) => !!v || 'Requerido',
+        (v) => v === 'DELETE' || 'Debes escribir DELETE en mayúsculas'
+      ],
+      validateDeleteForm: false,
+      confirmationMessage: false
+    }
   },
 
   computed: {
