@@ -204,7 +204,7 @@ export default {
     },
     async deleteBookingGarage(id) {
       await this.$axios.delete(`${process.env.apiUrl}/bookingData/${id}`)
-      this.$router.go()
+      this.$router.push('/')
     }
   },
 

@@ -15,7 +15,7 @@
         <v-col cols="2">
           <v-avatar size="164">
             <v-img
-              src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
+              src="https://pbs.twimg.com/profile_images/1250360843499442176/_SMtQy1V_400x400.jpg"
             ></v-img>
           </v-avatar>
         </v-col>
