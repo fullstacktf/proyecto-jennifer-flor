@@ -78,6 +78,7 @@ import GarageAvailibity from '@/components/GarageAvailibity'
 
 export default {
   name: 'Garage',
+  middleware: 'auth',
   components: {
     GarageReviews,
     GarageAvailibity

@@ -78,6 +78,7 @@ import SearchLocationBar from '@/components/SearchLocationBar'
 
 export default {
   name: 'Search',
+  middleware: 'auth',
   components: {
     SearchLocationBar,
     GarageCard,
