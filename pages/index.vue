@@ -161,8 +161,8 @@ export default {
           quantity: 1
         }
       ],
-      successUrl: 'https://app.garageme.es',
-      cancelUrl: 'https://app.garageme.es/rent'
+      successUrl: 'https://app.garageme.es/success',
+      cancelUrl: 'https://app.garageme.es/error'
     }
   },
   computed: {
