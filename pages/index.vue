@@ -57,7 +57,17 @@
       <v-card-actions>
         <v-btn color="success" text nuxt to="/rent">Ver mis reservas</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="success" depressed>Check-In</v-btn>
+        <stripe-checkout
+          ref="checkoutRef"
+          :pk="publishableKey"
+          :items="items"
+          :success-url="successUrl"
+          :cancel-url="cancelUrl"
+        >
+          <template slot="checkout-button">
+            <v-btn color="success" depressed @click="checkout">Check-In</v-btn>
+          </template>
+        </stripe-checkout>
       </v-card-actions>
     </v-card>
 
@@ -109,14 +119,16 @@
 
 <script>
 import { mapState } from 'vuex'
+import { StripeCheckout } from 'vue-stripe-checkout'
 import parkingimg from '@/assets/parking.png'
 import GarageCard from '@/components/GarageCard'
 
 export default {
   // activar autentificación
-  // middleware: 'auth',
+  middleware: 'auth',
   components: {
-    GarageCard
+    GarageCard,
+    StripeCheckout
   },
   asyncData({ $axios, params }) {
     return Promise.all([
@@ -138,9 +150,19 @@ export default {
   },
   data() {
     return {
-      parkingimg
+      parkingimg,
       // userData,
       // garagesData
+      loading: false,
+      publishableKey: process.env.stripeKey,
+      items: [
+        {
+          sku: 'sku_HLzLxTThJRkOKU',
+          quantity: 1
+        }
+      ],
+      successUrl: 'https://app.garageme.es',
+      cancelUrl: 'https://app.garageme.es/rent'
     }
   },
   computed: {
@@ -165,6 +187,11 @@ export default {
           ? this.userData.location
           : this.userData.actualLocation
       return userLocation
+    }
+  },
+  methods: {
+    checkout() {
+      this.$refs.checkoutRef.redirectToCheckout()
     }
   },
   head() {
