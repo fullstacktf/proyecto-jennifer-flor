@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-form ref="form" v-model="validForm">
-      <v-card outlined min-width="600">
+      <v-card outlined>
         <v-card-title>Consultar disponibilidad</v-card-title>
 
         <v-card-text>
@@ -13,7 +13,7 @@
             :close-on-content-click="false"
             :return-value.sync="date"
             transition="scale-transition"
-            min-width="290px"
+            max-width="290px"
             offset-y
           >
             <template v-slot:activator="{ on }">
@@ -50,7 +50,7 @@
 
           <p>Selecciona las horas de entrada y salida</p>
 
-          <div class="d-flex">
+          <div class="d-flex flex-column flex-md-row">
             <v-menu
               ref="menuStartTime"
               v-model="menuStartTime"
