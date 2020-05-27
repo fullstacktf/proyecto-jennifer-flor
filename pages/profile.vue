@@ -105,6 +105,7 @@ import GarageCard from '../components/GarageCard.vue'
 
 export default {
   name: 'Perfil',
+  middleware: 'auth',
   components: {
     GarageCard
   },

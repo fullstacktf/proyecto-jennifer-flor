@@ -163,6 +163,7 @@
 
 <script>
 export default {
+  middleware: 'auth',
   asyncData({ $axios, params }) {
     return Promise.all([
       $axios.get(`${process.env.apiUrl}/bookingData`),
