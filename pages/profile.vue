@@ -1,162 +1,185 @@
 <template>
   <div>
-    <h1>Tu perfil</h1>
-    <v-card class="my-2 py-2 px-4 mx-auto" max-width="400">
-      <h3 class="secondary--text">Datos públicos</h3>
-      <v-avatar size="164">
-        <v-img
-          src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
-        ></v-img>
-      </v-avatar>
-      <v-card-title>
-        <v-icon small class="mr-1">mdi-account</v-icon>
-        {{ userData.name }} {{ userData.lastname }}
-      </v-card-title>
-      <v-card-subtitle>
-        <div>
-          <v-icon small class="mr-1">mdi-email</v-icon> {{ userData.email }}
-        </div>
-        <div>
-          <v-icon small class="mr-1">mdi-map-marker</v-icon>
-          {{ userData.location }}
-        </div>
-      </v-card-subtitle>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-
-        <v-dialog
-          v-model="dialog"
-          fullscreen
-          hide-overlay
-          transition="dialog-bottom-transition"
-        >
-          <template v-slot:activator="{ on }">
-            <v-btn depressed color="accent" v-on="on">
-              Editar perfil
-            </v-btn>
-          </template>
-          <v-card>
-            <v-toolbar dark color="primary">
-              <v-btn icon dark @click="closeUserDataDialog">
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-              <v-toolbar-title>Editar perfil</v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-toolbar-items class="pa-2">
-                <v-btn dark text outlined @click="saveUserData">
-                  <v-icon left>mdi-content-save</v-icon>
-                  Guardar
-                </v-btn>
-              </v-toolbar-items>
-            </v-toolbar>
+    <v-container>
+      <v-row justify="center">
+        <v-col cols="8">
+          <v-alert v-if="response === 'success'" dense outlined type="success">
+            Se ha actualizado su perfil correctamente.
+          </v-alert>
+          <v-alert v-if="response === 'error'" dense outlined type="error">
+            No se ha podido actualizar su perfil es este momento.
+          </v-alert>
+        </v-col>
+      </v-row>
+      <v-row justify="space-around">
+        <v-col cols="2">
+          <v-avatar size="164">
+            <v-img
+              src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
+            ></v-img>
+          </v-avatar>
+        </v-col>
+        <v-col cols="8">
+          <v-card class="d-flex flex-column justify-center">
+            <v-card-title class="align-self-center">Mis datos</v-card-title>
+            <v-spacer></v-spacer>
             <v-card-text>
-              <v-container>
-                <v-form ref="form">
-                  <div class="d-flex">
-                    <v-text-field
-                      v-model="unsaveData.name"
-                      class="mx-1"
-                      label="Nombre"
-                      :placeholder="userData.name"
-                      required
-                      prepend-icon="mdi-account"
-                    ></v-text-field>
-                    <v-text-field
-                      v-model="unsaveData.lastname"
-                      class="mx-1"
-                      label="Apellidos"
-                      :placeholder="userData.lastname"
-                      required
-                    ></v-text-field>
-                  </div>
-                  <v-text-field
-                    v-model="unsaveData.email"
-                    label="Email"
-                    :placeholder="userData.email"
-                    required
-                    prepend-icon="mdi-email"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model="unsaveData.location"
-                    label="Localidad"
-                    :placeholder="userData.location"
-                    required
-                    prepend-icon="mdi-map-marker"
-                  ></v-text-field>
-                  <v-textarea
-                    v-model="unsaveData.bio"
-                    label="Sobre ti"
-                    :placeholder="userData.bio"
-                    rows="4"
-                    row-height="30"
-                    no-resize
-                    required
-                    prepend-icon="mdi-pencil-outline"
-                  ></v-textarea>
-                </v-form>
-              </v-container>
+              <v-form
+                ref="form"
+                v-model="valid"
+                class="d-flex flex-column px-10"
+              >
+                <v-text-field
+                  v-model="info.name"
+                  label="Nombre"
+                  :placeholder="userMetadata"
+                ></v-text-field>
+                <v-text-field
+                  v-model="info.surname"
+                  label="Apellidos"
+                  placeholder=""
+                ></v-text-field>
+                <v-text-field
+                  v-model="info.email"
+                  label="Correo electrónico"
+                  :placeholder="currentUser.email"
+                  disabled
+                ></v-text-field>
+                <v-text-field
+                  v-model="info.phone"
+                  :rules="phoneRules"
+                  label="Móvil"
+                ></v-text-field>
+                <v-text-field
+                  v-model="info.address"
+                  label="Dirección"
+                ></v-text-field>
+                <div class="d-flex justify-space-between">
+                  <v-btn color="primary" class="align-self-center" @click="edit"
+                    >Editar perfil</v-btn
+                  >
+                  <v-btn
+                    outlined
+                    color="accent"
+                    class="align-self-end"
+                    @click="deleteAccount"
+                    >Eliminar mi cuenta</v-btn
+                  >
+                </div>
+              </v-form>
             </v-card-text>
           </v-card>
-        </v-dialog>
-      </v-card-actions>
-    </v-card>
-    <!-- <h2 class="d-inline-flex my-4">Actualmente alquilado</h2>
-    <v-btn text outlined class="success--text">Modificar Alquiler</v-btn>
-    <v-card v-if="userData.booking.length > 0" flat class="d-flex flex-wrap">
-      <garage-card
-        v-for="(garage, index) in actualRental"
-        :key="index"
-        :garage="garage"
-        class="ma-1"
-      ></garage-card
-    ></v-card> -->
-    <h2 class="text-center mt-8 mb-6 display-1 font-weight-bold">
-      Historial de aparcamientos reservados
-    </h2>
-    <v-card color="transparent" flat class="d-flex flex-wrap justify-center">
-      <garage-card
-        v-for="(garage, index) in bookingHistory"
-        :key="index"
-        :garage="garage"
-        class="ma-1"
-      ></garage-card
-    ></v-card>
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="12">
+          <h2 class="text-center mt-8 mb-6 display-1 font-weight-bold">
+            Historial de aparcamientos reservados
+          </h2>
+        </v-col>
+        <v-col>
+          <v-card
+            color="transparent"
+            flat
+            class="d-flex flex-wrap justify-center"
+          >
+            <garage-card
+              v-for="(garage, index) in bookingHistory"
+              :key="index"
+              :garage="garage"
+              class="ma-1"
+            ></garage-card
+          ></v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
-import userData from '../assets/userdata.json'
+import { mapState, mapMutations } from 'vuex'
 import garagesData from '../assets/garages.json'
+import userData from '../assets/userdata.json'
 import GarageCard from '../components/GarageCard.vue'
 
 export default {
+  name: 'Perfil',
   components: {
     GarageCard
   },
+  // Obtiene todos los usuarios.
+  asyncData({ $axios }) {
+    return $axios.get(`${process.env.apiUrl}/users`).then((response) => {
+      return { users: response.data }
+    })
+  },
   data() {
     return {
+      valid: true,
+      phoneRules: [
+        (v) =>
+          /^([9,7,6]{1})+([0-9]{8})$/.test(v) ||
+          'Debe introducir un móvil válido.'
+      ],
+      info: {
+        name: '',
+        surname: '',
+        email: '',
+        phone: '',
+        address: ''
+      },
+      user: '',
+      response: null,
       userData,
-      garagesData,
-      dialog: false,
-      unsaveData: {}
+      garagesData
     }
   },
   computed: {
+    ...mapState('modules/auth', ['currentUser', 'userMetadata']),
     bookingHistory() {
       return this.getBookingData(this.userData.bookingHistory)
     }
   },
   methods: {
-    clearUnsaveUserData() {
-      this.unsaveData = {}
+    ...mapMutations('modules/auth', ['SET_USER_METADATA']),
+    async createUser(data) {
+      return await this.$axios.post(`${process.env.apiUrl}/users`, data)
     },
-    saveUserData() {
-      //  UPDATE DATA()
-      this.clearUnsaveUserData()
+    async deleteUser(id) {
+      return await this.$axios.delete(`${process.env.apiUrl}/users/${id}`)
     },
-    closeUserDataDialog() {
-      this.dialog = false
-      this.clearUnsaveUserData()
+    // Obtiene el usuario que ha iniciado sesión.
+    getUser() {
+      return this.users.filter((user) => {
+        return user.email === this.currentUser.email
+      })
+    },
+    // Obtiene el Id del usuario que ha iniciado sesión.
+    getUserId() {
+      return this.getUser()[0].id
+    },
+    edit() {
+      if (this.$refs.form.validate()) {
+        if (this.getUser().length !== 0) {
+          // En realidad hay que eliminar el que ya existe.
+          this.deleteAccount()
+        }
+        if (this.$data.info.name === '') {
+          this.$data.info.name = this.userMetadata
+        }
+        this.$data.info.email = this.currentUser.email
+        this.createUser(this.$data.info)
+          .then(() => (this.response = 'success'))
+          .catch(() => {
+            this.response = 'error'
+          })
+      }
+    },
+    deleteAccount() {
+      this.deleteUser(this.getUserId())
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error))
     },
     getBookingData(type) {
       const garages = {}

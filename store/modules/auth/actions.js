@@ -65,22 +65,6 @@ const attemptSignUp = ({ commit }, credentials) => {
   })
 }
 
-const userUpdate = (state) => {
-  return new Promise((resolve, reject) => {
-    const user = state.currentUser
-    user
-      .update({ data: { phone: '' } })
-      .then((response) => {
-        console.log(response)
-        resolve(response)
-      })
-      .catch((error) => {
-        reject(error)
-        console.log(error)
-      })
-  })
-}
-
 const attemptLogout = ({ commit }) => {
   commit('SET_CURRENT_USER', null)
   // return new Promise((resolve, reject) => {
@@ -105,6 +89,5 @@ export default {
   attemptLogin,
   attemptConfirmation,
   attemptSignUp,
-  attemptLogout,
-  userUpdate
+  attemptLogout
 }

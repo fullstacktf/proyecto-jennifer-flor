@@ -21,15 +21,17 @@
       <template v-slot:prepend>
         <v-list-item two-line>
           <v-list-item-avatar color="primary">
-            <span class="white--text headline">{{
-              userMetadata.slice(0, 1)
+            <span v-if="userMetadata !== null" class="white--text headline">{{
+              letter
             }}</span>
+            <span v-else class="white--text headline">G</span>
           </v-list-item-avatar>
 
           <v-list-item-content>
             <v-list-item-title v-if="userMetadata !== null">{{
               userMetadata
             }}</v-list-item-title>
+            <v-list-item-title v-else>Usuario</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </template>
@@ -91,6 +93,9 @@ export default {
   },
   computed: {
     ...mapState('modules/auth', ['userMetadata']),
+    letter() {
+      return this.userMetadata.slice(0, 1)
+    },
     isVisible() {
       // const user = this.$auth.currentUser()
       // if (!user) {
