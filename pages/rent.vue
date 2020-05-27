@@ -98,7 +98,7 @@
             depressed
             outlined
             color="error"
-            @click="confirmationMessage = true"
+            @click="deletingGarage(bookingGarage.id)"
             >Anular reserva</v-btn
           >
 
@@ -131,7 +131,7 @@
                   v-if="validateDeleteForm"
                   depressed
                   color="error"
-                  @click="deleteBookingGarage(bookingGarage.id)"
+                  @click="deleteGarage"
                   >Anular reserva</v-btn
                 >
               </v-card-actions>
@@ -185,7 +185,8 @@ export default {
         (v) => v === 'DELETE' || 'Debes escribir DELETE en mayúsculas'
       ],
       validateDeleteForm: false,
-      confirmationMessage: false
+      confirmationMessage: false,
+      deleteGarageId: ''
     }
   },
 
@@ -202,8 +203,14 @@ export default {
       })
       return garage[0]
     },
-    async deleteBookingGarage(id) {
-      await this.$axios.delete(`${process.env.apiUrl}/bookingData/${id}`)
+    deletingGarage(id) {
+      this.confirmationMessage = true
+      this.deleteGarageId = id
+    },
+    async deleteGarage() {
+      await this.$axios.delete(
+        `${process.env.apiUrl}/bookingData/${this.deleteGarageId}`
+      )
       this.$router.push('/')
     }
   },
